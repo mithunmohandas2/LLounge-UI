@@ -1,0 +1,21 @@
+.container {
+    /* height: 1000px; Set a height for the container to demonstrate scrolling */
+    position: relative;
+  }
+  
+  .card {
+    position: absolute;
+    top: 50%;
+    left: -100%; /* Initially off-screen to the left */
+    transform: translate(-50%, -50%);
+    background-color: #ffffff5b;
+    padding: 20px;
+    margin-top: 7em;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: left 0.9s ease-in-out; /* Transition for smooth animation */
+  }
+  
+  .visible {
+    left: 50%; /* Position to the center when visible */
+  }
