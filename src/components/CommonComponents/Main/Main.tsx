@@ -8,7 +8,7 @@ function Main() {
 
             <div className="max-w-4xl mx-auto">
 
-                <section id="banner" className="flex flex-col-reverse justify-center sm:flex-row p-6 pb-0 items-center gap-8 mb-12 scroll-mt-20">
+                <section id="home" className="flex flex-col-reverse justify-center sm:flex-row p-6 pb-0 items-center gap-8 mb-12 scroll-mt-20">
                     <div className="sm:w-1/2">
                         <h2 className="max-w-md text-3xl sm:text-4xl font-bold text-center sm:text-left text-slate-900 hover:opacity-70">
                             Gateway to Excellence
@@ -21,7 +21,7 @@ function Main() {
                         </p>
                     </div>
 
-                    <img className="w-1/2" src="/images/banner-no-bg.png" alt="Banner" />
+                    <img className="w-1/2 zoomEffect" src="/images/banner-no-bg.png" alt="Banner" />
 
                 </section>
 
@@ -37,15 +37,9 @@ function Main() {
                     </p>
 
                 </section>
-
-                <section id="courses" className="py-6 my-12 scroll-mt-20" style={{ height: 600 }}>
-                    <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6  text-slate-900">
-                        <span className='lineEffect'>Courses</span>
-                    </h2>
-                    <br />
-                    <CourseDetailCard />
-                </section>
+                
             </div>
+                <CourseDetailCard />
 
             <section id="contact" className="p-6 my-12 bg-white container-fluid scroll-mt-20">
                 <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6 text-slate-900">
@@ -57,8 +51,8 @@ function Main() {
                 <hr className="w-1/2 mx-auto my-5" />
 
                 <p className='text-center'>Copyright © Learner's Lounge | All Rights Reserved</p>
-                <a href="https://wa.me/9846232252" target="_blank" className="absolute z-20 mt-10" >
-                    <img style={{width:80}} src="https://cliply.co/wp-content/uploads/2021/08/372108180_WHATSAPP_ICON_400.gif" alt="Whatsapp" />
+                <a href="https://wa.me/9846232252" target="_blank" className="absolute z-20 mt-10 zoomEffect" >
+                    <img style={{ width: 80 }} src="https://cliply.co/wp-content/uploads/2021/08/372108180_WHATSAPP_ICON_400.gif" alt="Whatsapp" />
                 </a>
             </section>
 

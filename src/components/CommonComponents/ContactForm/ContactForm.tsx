@@ -34,7 +34,7 @@ function ContactForm() {
 
             <div className="container">
                 <div className={`card ${isVisible ? 'visible' : ''}`} id="animatedCard">
-                    <a href="#banner">
+                    <a href="#home">
                         <p>▲ Top</p>
                     </a>
                 </div>

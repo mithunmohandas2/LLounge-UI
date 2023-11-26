@@ -16,3 +16,9 @@
 .lineEffect:hover {
     --_p: 100%
 }
+.zoomEffect{
+    transition: transform 0.3s ease;
+}
+.zoomEffect:hover{
+    transform:scale(1.05);
+}
