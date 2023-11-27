@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/user/userSlice'
 import '../../components/CommonComponents/Header/Header.css'
+import backgroundImg from '/images/loginBg.jpg'
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -52,7 +53,7 @@ function Login() {
   }
 
   const backgroundImageStyle = {
-    backgroundImage: `url('https://img.freepik.com/free-photo/flat-lay-workstation-with-copy-space-laptop_23-2148430879.jpg?w=826&t=st=1701029051~exp=1701029651~hmac=e4ac54365e0c4007156cc49de1e002e589561aa44f63ff5388e54758d031c7ea')`,
+    backgroundImage: `url(${backgroundImg})`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',

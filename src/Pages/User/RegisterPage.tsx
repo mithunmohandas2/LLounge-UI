@@ -1,7 +1,7 @@
-
+import Resgister from "../../components/UserComponents/Resgister"
 function RegisterPage() {
   return (
-    <div>RegisterPage</div>
+    <Resgister/>
   )
 }
 
