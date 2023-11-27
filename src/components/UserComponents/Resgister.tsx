@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { baseUrlAPI } from '../../app/links'
 import axios from 'axios'
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
+import toast, { Toaster } from 'react-hot-toast';
 import backgroundImg from '/images/loginBg.jpg'
 
 function Resgister() {
@@ -20,10 +21,11 @@ function Resgister() {
         try {
             event.preventDefault()
             if (password !== password2) {
-                return Swal.fire({
-                    icon: 'error',
-                    title: 'Password mismatch',
-                })
+                return toast.error('Password mismatch')
+                //  Swal.fire({
+                //     icon: 'error',
+                //     title: 'Password mismatch',
+                // })
             }
             setFirstName(firstName.trimEnd());
             setLastName(lastName.trimEnd());
@@ -38,19 +40,21 @@ function Resgister() {
                 .then(response => {
                     console.log('Response:', response.data);                   // all the user data received
                     if (response.data.error) throw Error(response.data.error)  //if any error throw error 
-                    Swal.fire({
-                        icon: 'success',
-                        title: "Signup successful",
-                        text: "Please Login to continue"
-                    })
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: "Signup successful",
+                    //     text: "Please Login to continue"
+                    // })
+                    toast.success('Signup successful, Please Login to continue')
                     Navigate('/login')                                          // signup Success 
                 })
                 .catch(error => {
                     // console.error('Error:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: error.message,
-                    })
+                    toast.error(error.message)
+                    // Swal.fire({
+                    //     icon: 'error',
+                    //     title: error.message,
+                    // })
                 });
 
 
@@ -66,6 +70,7 @@ function Resgister() {
     };
     return (
         <div className="flex min-h-screen flex-col justify-center px-6 py-16 sm:py-10 lg:px-8" style={backgroundImageStyle}>
+            <Toaster />
             <div className='p-8 bg-slate-100 rounded-2xl mx-auto'>
                 <div className="sm:mx-auto sm:w-full sm:max-w-3xl">
                     <img className="mx-auto h-16 w-auto cursor-pointer zoomEffect" src={Logo} alt="Logo" onClick={() => Navigate("/")} />

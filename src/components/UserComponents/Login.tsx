@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { baseUrlAPI } from '../../app/links'
 import axios from 'axios';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
+import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/user/userSlice'
 import '../../components/CommonComponents/Header/Header.css'
@@ -44,7 +45,8 @@ function Login() {
         })
         .catch(error => {
           // console.error('Error:', error);
-          Swal.fire({ icon: 'error', title: error.message, })
+          // Swal.fire({ icon: 'error', title: error.message, })
+          toast.error(error.message)
         });
 
     } catch (error: any) {
@@ -61,6 +63,7 @@ function Login() {
 
   return (
     <div className="flex min-h-screen flex-col justify-center px-6 py-16 sm:py-10 lg:px-8" style={backgroundImageStyle}>
+      <Toaster />
       <div className='p-8 bg-slate-100 rounded-2xl sm:max-w-xs mx-auto'>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img className="mx-auto h-16 w-auto cursor-pointer zoomEffect" src={Logo} alt="Logo" onClick={() => Navigate("/")} />
@@ -72,8 +75,8 @@ function Login() {
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
               <div className="mt-2">
-                <input id="email" name="email" type="email" autoComplete="email" required className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" pattern="^(?=.*[@])(?=.*[.]).{5,}$" placeholder="Enter email ID" value={email} 
-                onChange={(input) => setEmail(input.target.value)} />
+                <input id="email" name="email" type="email" autoComplete="email" required className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" pattern="^(?=.*[@])(?=.*[.]).{5,}$" placeholder="Enter email ID" value={email}
+                  onChange={(input) => setEmail(input.target.value)} />
               </div>
             </div>
 
@@ -85,9 +88,9 @@ function Login() {
                 </div>
               </div>
               <div className="mt-2">
-                <input id="password" name="password" type="password" autoComplete="current-password" required className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" placeholder="Enter password" 
-                 // pattern="^(?=.*[A-Za-z0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-=|]).{6,}$" 
-                value={password} onChange={(input) => setPassword(input.target.value)}/>
+                <input id="password" name="password" type="password" autoComplete="current-password" required className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" placeholder="Enter password"
+                  // pattern="^(?=.*[A-Za-z0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-=|]).{6,}$" 
+                  value={password} onChange={(input) => setPassword(input.target.value)} />
               </div>
             </div>
 
