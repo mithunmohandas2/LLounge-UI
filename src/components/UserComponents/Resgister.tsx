@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { baseUrlAPI } from '../../app/links'
 import axios from 'axios'
-// import Swal from 'sweetalert2';
 import toast, { Toaster } from 'react-hot-toast';
 import backgroundImg from '/images/loginBg.jpg'
 
@@ -22,10 +21,6 @@ function Resgister() {
             event.preventDefault()
             if (password !== password2) {
                 return toast.error('Password mismatch')
-                //  Swal.fire({
-                //     icon: 'error',
-                //     title: 'Password mismatch',
-                // })
             }
             setFirstName(firstName.trimEnd());
             setLastName(lastName.trimEnd());
@@ -40,21 +35,12 @@ function Resgister() {
                 .then(response => {
                     console.log('Response:', response.data);                   // all the user data received
                     if (response.data.error) throw Error(response.data.error)  //if any error throw error 
-                    // Swal.fire({
-                    //     icon: 'success',
-                    //     title: "Signup successful",
-                    //     text: "Please Login to continue"
-                    // })
                     toast.success('Signup successful, Please Login to continue')
                     Navigate('/login')                                          // signup Success 
                 })
                 .catch(error => {
-                    // console.error('Error:', error);
+                    console.error('Error:', error);
                     toast.error(error.message)
-                    // Swal.fire({
-                    //     icon: 'error',
-                    //     title: error.message,
-                    // })
                 });
 
 
@@ -117,7 +103,7 @@ function Resgister() {
                         </div>
 
                         <div>
-                            <button type="submit" className="flex w-full justify-center rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Register</button>
+                            <button type="submit" className="flex w-full justify-center rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Register as Student</button>
                         </div>
                     </form>
 

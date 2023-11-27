@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { baseUrlAPI } from '../../app/links'
 import axios from 'axios';
-// import Swal from 'sweetalert2';
 import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/user/userSlice'
@@ -19,6 +18,7 @@ function Login() {
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
+      //if already logged in
       Navigate('/home')
     }
     // (function () {     //focus on email input field
@@ -44,8 +44,7 @@ function Login() {
           Navigate('/home')                                          // Login Success 
         })
         .catch(error => {
-          // console.error('Error:', error);
-          // Swal.fire({ icon: 'error', title: error.message, })
+          console.error('Error:', error);
           toast.error(error.message)
         });
 
