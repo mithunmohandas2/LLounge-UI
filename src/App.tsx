@@ -3,10 +3,9 @@ import Home from "./Pages/User/HomePage"
 import LoginPage from "./Pages/CommonPages/LoginPage"
 import RegisterPage from "./Pages/User/RegisterPage"
 import OtpLoginPage from "./Pages/CommonPages/OtpLoginPage"
-
 import TutorHomePage from "./Pages/Tutor/TutorHomePage"
-
 import Dashboard from "./Pages/Admin/Dashboard"
+import Error404 from "./Pages/CommonPages/Error404"
 function App() {
 
   return (
@@ -26,6 +25,9 @@ function App() {
 
           {/* Admin Routes */}
           <Route path="/admin" element={<Dashboard />} />
+
+          {/* Error Pages */}
+          <Route path="/*" element={<Error404 />} />
 
         </Routes>
       </Router>
