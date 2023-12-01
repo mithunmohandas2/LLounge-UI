@@ -20,27 +20,29 @@ function Resgister() {
         try {
             event.preventDefault()
             if (password !== password2) {
-                return toast.error('Password mismatch')
+                return toast('Password mismatch', { icon: '⛔', });
             }
             setFirstName(firstName.trimEnd());
             setLastName(lastName.trimEnd());
             setEmail((email).toLowerCase().trimEnd())
 
-            console.log(firstName, lastName, email, phone, password, password2)   //test mode
+            console.log(firstName, lastName, email, phone, password)   //test mode
 
-            const url = baseUrlAPI + '/register';    //Signup API endpoint
+            const url = baseUrlAPI + '/user/register';    //Signup API endpoint
             const data = { email, firstName, lastName, phone, password };
 
             await axios.post(url, data)               //check from database
                 .then(response => {
                     console.log('Response:', response.data);                   // all the user data received
                     if (response.data.error) throw Error(response.data.error)  //if any error throw error 
-                    toast.success('Signup successful, Please Login to continue')
-                    Navigate('/login')                                          // signup Success 
+                    toast.success(' Signup successful \n Please Login to continue')
+                    setTimeout(() => {
+                        Navigate('/login')                                          // signup Success 
+                    }, 2000);
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    toast.error(error.message)
+                    console.error('Error:', error.response?.data?.message, '|', error.message);
+                    toast.error(error.response?.data?.message)
                 });
 
 
