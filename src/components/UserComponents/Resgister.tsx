@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { baseUrlAPI } from '../../app/links'
-import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast';
-import backgroundImg from '/images/loginBg.jpg'
+import backgroundImg from '/images/loginBg.jpg';
+import { isValidEmail, isValidName, isValidPassword, isValidPhoneNumber } from '../../Services/validations'
+import { SignupAPI } from '../../Services/InteractionsAPI';
 
 function Resgister() {
-    const [firstName, setFirstName] = useState('');
+    const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const Navigate = useNavigate()
-    // const inputFocus = useRef(null)
     const Logo = '/images/LL-Logo.png'
 
-    const handleSignup = async (event: { preventDefault: () => void; }) => {     //Submit the signup data and redirect to login
+    const handleSignup = async (event: { preventDefault: () => void; }) => {
         try {
             event.preventDefault()
             if (password !== password2) {
@@ -24,27 +23,42 @@ function Resgister() {
             }
             setFirstName(firstName.trimEnd());
             setLastName(lastName.trimEnd());
-            setEmail((email).toLowerCase().trimEnd())
+            setEmail((email).trimEnd());
 
             console.log(firstName, lastName, email, phone, password)   //test mode
 
-            const url = baseUrlAPI + '/user/register';    //Signup API endpoint
-            const data = { email, firstName, lastName, phone, password };
+            if (!firstName || !email || !password || !phone) {
+                return toast.error("Missing required fields");
+            }
 
-            await axios.post(url, data)               //check from database
-                .then(response => {
-                    console.log('Response:', response.data);                   // all the user data received
-                    if (response.data.error) throw Error(response.data.error)  //if any error throw error 
-                    toast.success(' Signup successful \n Please Login to continue')
-                    setTimeout(() => {
-                        Navigate('/login')                                          // signup Success 
-                    }, 2000);
-                })
-                .catch(error => {
-                    console.error('Error:', error.response?.data?.message, '|', error.message);
-                    toast.error(error.response?.data?.message)
-                });
+            if (!isValidName(firstName)) {             // Validate email format
+                return toast.error("Invalid Name");
+            }
 
+            if (!isValidEmail(email)) {             // Validate email format
+                return toast.error("Invalid email format");
+            }
+
+            if (!isValidPhoneNumber(phone)) {        // Validate phone number
+                return toast.error("Invalid phone number");
+            }
+
+            if (!isValidPassword(password)) {        // Validate password
+                return toast.error("Password must be at least 6 characters long");
+            }
+
+            const response = await SignupAPI(firstName, lastName, email, phone, password);
+            // console.log("Reg", response?.response?.data?.message)    //test
+            if (response.data) {
+                toast.success(' Signup successful \n Please Login to continue');
+                setTimeout(() => {
+                    // console.log("token",response.token)
+                    // localStorage.setItem("token", response.token);
+                    Navigate('/login')                                         
+                }, 2000);
+            } else {
+                toast.error(response?.response?.data?.message)
+            }
 
         } catch (error: any) {
             console.log(error.message);
@@ -82,7 +96,7 @@ function Resgister() {
                         <div className='flex flex-col sm:flex-row'>
                             <div className="mb-3">
                                 <input id="email" name="email" type="email" required className="block w-full ps-2 sm:me-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" pattern="^(?=.*[@])(?=.*[.]).{5,}$" placeholder="Email address" value={email}
-                                    onChange={(input) => setEmail(input.target.value)} />
+                                    onChange={(input) => setEmail(input.target.value.toLowerCase())} />
                             </div>
                             <div className="mb-3">
                                 <input id="phone" name="phone" type="tel" required className="block w-full ps-2 sm:ms-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" placeholder="Phone number" value={phone}

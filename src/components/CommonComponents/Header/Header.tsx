@@ -48,6 +48,9 @@ function Header() {
                 {!isLoggedIn && <div className='hidden sm:block '>
                     <p><span className='lineEffect cursor-pointer' onClick={() => Navigate('/login')}>Login</span> | <span className='lineEffect cursor-pointer' onClick={() => Navigate('/register')}>Register</span></p>
                 </div>}
+                {isLoggedIn && <div className='hidden sm:block '>
+                    <p><span className='lineEffect cursor-pointer' onClick={() => Navigate('/login')}>Logout</span></p>
+                </div>}
 
             </section>
 

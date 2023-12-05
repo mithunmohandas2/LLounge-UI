@@ -7,11 +7,12 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../features/user/userSlice'
 import '../../components/CommonComponents/Header/Header.css'
 import backgroundImg from '/images/loginBg.jpg'
+import { isValidEmail, isValidPassword } from '../../Services/validations';
+import { LoginAPI } from '../../Services/InteractionsAPI';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const emailInput = useRef(null)
   const Logo = '/images/LL-Logo.png'
   const Navigate = useNavigate()
   const dispatch = useDispatch()
@@ -21,9 +22,6 @@ function Login() {
       //if already logged in
       Navigate('/home')
     }
-    // (function () {     //focus on email input field
-    //   emailInput.current.focus();
-    // })()
   }, [Navigate])
 
   const handleLogin = async (event: { preventDefault: () => void; }) => {    //Submit the Login data and redirect to Home
@@ -33,20 +31,31 @@ function Login() {
 
       console.log(email, password)        //test mode
 
-      const url = baseUrlAPI + '/login';    // Verify Login API endpoint
-      const data = { email, password, };
+      if (!email || !password) {
+        return toast.error("Missing required fields");
+      }
 
-      await axios.post(url, data)               //check from database
-        .then(response => {
-          if (response.data.error) throw Error(response.data.error)  //if any error throw error 
-          // console.log('Response:', response.data);  // all the user data received
-          dispatch(login(response.data))                              // Saving data to redux
-          Navigate('/home')                                          // Login Success 
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          toast.error(error.message)
-        });
+      if (!isValidEmail(email)) {             // Validate email format
+        return toast.error("Invalid email format");
+      }
+      if (!isValidPassword(password)) {        // Validate password
+        return toast.error("Password must be at least 6 characters long");
+      }
+
+      const response = await LoginAPI(email, password);
+      // console.log("Reg", response?.response?.data?.message)    //test
+      if (response.data) {
+        toast.success(' Login successful');
+        setTimeout(() => {
+          // console.log("token",response.token)
+          localStorage.setItem("token", response.token);
+          if (response.data?.role === 'instructor') Navigate('/instructor')
+          else if (response.data?.role === 'admin') Navigate('/admin')
+          else Navigate('/home')
+        }, 2000);
+      } else {
+        toast.error(response?.response?.data?.message)
+      }
 
     } catch (error: any) {
       console.log(error.message);

@@ -10,6 +10,7 @@ const userSlice = createSlice({
     reducers: {
         login: (state, action) => {
             state.userData = action.payload;
+            console.log(action.payload)
             // Set a key-value pair in local storage to store JWT Token
             localStorage.setItem('token', action.payload.token);
         },
