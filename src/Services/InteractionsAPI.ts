@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { baseUrlAPI } from '../app/links'
 
-
 const SignupAPI = async (firstName: string, lastName: string, email: string, phone: string, password: string) => {
     try {
         const url = baseUrlAPI + '/user/register';    //Signup API endpoint
@@ -28,7 +27,7 @@ const LoginAPI = async (email: string, password: string) => {
 
         const response = await axios.post(url, data)
         if (response.data) {
-            console.log('Response:', response.data);                   // all the user data received
+            console.log('Response:', response.data);  
             return response.data
         }
     } catch (error) {

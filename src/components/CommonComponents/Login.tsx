@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { baseUrlAPI } from '../../app/links'
-import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { login } from '../../features/user/userSlice'
 import '../../components/CommonComponents/Header/Header.css'
 import backgroundImg from '/images/loginBg.jpg'
 import { isValidEmail, isValidPassword } from '../../Services/validations';
@@ -15,7 +11,6 @@ function Login() {
   const [password, setPassword] = useState('');
   const Logo = '/images/LL-Logo.png'
   const Navigate = useNavigate()
-  const dispatch = useDispatch()
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -49,7 +44,7 @@ function Login() {
         setTimeout(() => {
           // console.log("token",response.token)
           localStorage.setItem("token", response.token);
-          if (response.data?.role === 'instructor') Navigate('/instructor')
+          if (response.data?.role === 'tutor') Navigate('/tutor')
           else if (response.data?.role === 'admin') Navigate('/admin')
           else Navigate('/home')
         }, 2000);

@@ -1,34 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import Home from "./Pages/User/HomePage"
-import LoginPage from "./Pages/CommonPages/LoginPage"
-import RegisterPage from "./Pages/User/RegisterPage"
-import OtpLoginPage from "./Pages/CommonPages/OtpLoginPage"
-import TutorHomePage from "./Pages/Tutor/TutorHomePage"
-import Dashboard from "./Pages/Admin/Dashboard"
-import Error404 from "./Pages/CommonPages/Error404"
-function App() {
+import React from "react"
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
+import UserRoutes from "./Routes/UserRoutes"
+import AdminRoutes from "./Routes/AdminRoutes"
+import TutorRoutes from "./Routes/TutorRoutes"
 
+const App: React.FC = () => {
   return (
     <>
       <Router>
         <Routes>
-          {/* User Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgotPassword" element={<OtpLoginPage />} />
-
-          {/* Tutor Routes */}
-          <Route path="/tutor" element={<TutorHomePage />} />
-
-
-          {/* Admin Routes */}
-          <Route path="/admin" element={<Dashboard />} />
-
-          {/* Error Pages */}
-          <Route path="/*" element={<Error404 />} />
-
+          <Route path="/*" element={<UserRoutes />} />
+          <Route path='/admin/*' element={<AdminRoutes />} />
+          <Route path='/tutor/*' element={<TutorRoutes />} />
         </Routes>
       </Router>
     </>
