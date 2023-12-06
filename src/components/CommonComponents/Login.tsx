@@ -5,12 +5,15 @@ import '../../components/CommonComponents/Header/Header.css'
 import backgroundImg from '/images/loginBg.jpg'
 import { isValidEmail, isValidPassword } from '../../Services/validations';
 import { LoginAPI } from '../../Services/InteractionsAPI';
+import { useDispatch } from 'react-redux';
+import { login } from '../../features/user/userSlice';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const Logo = '/images/LL-Logo.png'
   const Navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -38,12 +41,11 @@ function Login() {
       }
 
       const response = await LoginAPI(email, password);
-      // console.log("Reg", response?.response?.data?.message)    //test
       if (response.data) {
         toast.success(' Login successful');
         setTimeout(() => {
-          // console.log("token",response.token)
-          localStorage.setItem("token", response.token);
+          console.log("response", response)    //test
+          dispatch(login(response))
           if (response.data?.role === 'tutor') Navigate('/tutor')
           else if (response.data?.role === 'admin') Navigate('/admin')
           else Navigate('/home')

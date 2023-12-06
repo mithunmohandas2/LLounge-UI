@@ -8,6 +8,7 @@ const TutorRoutes: React.FC = () => {
         <>
             <Routes>
                 <Route path="" element={<TutorHomePage />} />
+                
                 <Route path="*" element={<Error404 />} />
             </Routes>
         </>

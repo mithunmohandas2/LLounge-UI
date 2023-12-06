@@ -27,7 +27,6 @@ const LoginAPI = async (email: string, password: string) => {
 
         const response = await axios.post(url, data)
         if (response.data) {
-            console.log('Response:', response.data);  
             return response.data
         }
     } catch (error) {

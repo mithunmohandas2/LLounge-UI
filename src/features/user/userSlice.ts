@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { UserTypeRedux } from "../../Types/UserTypes";
 
-const initialState = {
+const initialState: UserTypeRedux = {
     userData: null,
+    token: null,
 }
 
 const userSlice = createSlice({
@@ -9,13 +11,15 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
-            state.userData = action.payload;
-            console.log(action.payload)
+            state.userData = action.payload.data;
+            state.token = action.payload.token;
+            // console.log(action.payload)
             // Set a key-value pair in local storage to store JWT Token
             localStorage.setItem('token', action.payload.token);
         },
         logout: (state) => {
             state.userData = null;
+            state.token = null;
             // Clear all data in local storage
             localStorage.clear();
         },

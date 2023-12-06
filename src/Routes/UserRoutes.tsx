@@ -18,7 +18,7 @@ const UserRoutes: React.FC = () => {
                 
                 <Route path="/admin/*" />
                 <Route path="/tutor/*" />
-                <Route path="/*" element={<Error404 />} />
+                <Route path="*" element={<Error404 />} />
             </Routes>
         </>
     )

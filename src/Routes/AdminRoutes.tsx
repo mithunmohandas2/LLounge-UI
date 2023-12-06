@@ -8,6 +8,7 @@ const AdminRoutes: React.FC = () => {
         <>
             <Routes>
                 <Route path="" element={<Dashboard />} />
+                
                 <Route path="*" element={<Error404 />} />
             </Routes>
         </>
