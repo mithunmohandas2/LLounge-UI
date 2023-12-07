@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { baseUrlAPI } from '../../app/links'
-import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/user/userSlice'
 import '../../components/CommonComponents/Header/Header.css'
 import backgroundImg from '/images/loginBg.jpg'
+import { OtpLoginAPI, sendOtpAPI } from '../../Services/InteractionsAPI';
+import { isValidEmail } from '../../Services/validations';
+
+
 function OtpLogin() {
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
     const [sendOtpStatus, setSendOtpStatus] = useState('Send OTP')
-    // const emailInput = useRef(null)
     const Logo = '/images/LL-Logo.png'
     const Navigate = useNavigate()
     const dispatch = useDispatch()
@@ -20,9 +21,6 @@ function OtpLogin() {
         if (localStorage.getItem("token")) {
             Navigate('/home')   //if already logged in
         }
-        // (function () {       //focus on email input field
-        //   emailInput.current.focus();
-        // })()
     }, [Navigate])
 
 
@@ -31,30 +29,33 @@ function OtpLogin() {
             event.preventDefault()
             setEmail((email).toLowerCase().trimEnd())
 
-            console.log(email, otp)        //test mode
+            // console.log(email, otp)        //test mode
+          const response = await OtpLoginAPI(email, otp);
+            if (response.data) {
+                toast.success(' Login successful');
+                setTimeout(() => {
+                    console.log("response", response)    //test
+                    dispatch(login(response))
+                    if (response.data?.role === 'tutor') Navigate('/tutor')
+                    else if (response.data?.role === 'admin') Navigate('/admin')
+                    else Navigate('/home')
+                }, 2000);
+            } else {
+                toast.error(response?.response?.data?.message)
+            }
 
-            const data = { email, otp };
-
-            await axios.post(baseUrlAPI + '/otpLogin', data)               //check from database
-                .then(response => {
-                    if (response.data.error) throw Error(response.data.error)  //if any error throw error 
-                    // console.log('Response:', response.data);                 // all the user data received
-                    dispatch(login(response.data))                              // Saving data to redux
-                    Navigate('/home')                                          // Login Success 
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    toast.error(error.message)
-                });
-
-        } catch (error: any) {
-            console.log(error.message);
+        } catch (error) {
+            console.log((error as Error).message);
         }
     }
 
     const handleSendOTP = async () => {
+        if (!isValidEmail(email)) return toast.error('Invalid email format')
         setSendOtpStatus('Sending OTP...')
-        //otp sending route
+
+        const otpSucess = await sendOtpAPI(email)//otp sending route
+        if (!otpSucess) return setSendOtpStatus('Send OTP')
+
         toast.success('OTP Send successfully')
 
         let timerOn = true;
@@ -75,7 +76,6 @@ function OtpLogin() {
                 }, 1000);
                 return;
             }
-
             // after timeout
             setSendOtpStatus('Resend OTP')
         }
@@ -109,14 +109,13 @@ function OtpLogin() {
                             </div>
                             <div className="text-sm flex justify-end mt-3">
                                 {sendOtpStatus === 'Resend OTP' || sendOtpStatus === 'Send OTP' ? <p className="font-semibold text-cyan-600 hover:text-cyan-500 cursor-pointer" onClick={handleSendOTP}>{sendOtpStatus}</p> :
-                                <p className="font-semibold text-red-500">{sendOtpStatus}</p> }
+                                    <p className="font-semibold text-red-500">{sendOtpStatus}</p>}
                             </div>
                         </div>
 
                         <div>
                             <div className="flex items-center justify-between">
-                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">One Time Password</label>
-
+                                <label htmlFor="otp" className="block text-sm font-medium leading-6 text-gray-900">One Time Password</label>
                             </div>
                             <div className="mt-2">
                                 <input id="otp" name="otp" type="otp" required className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" placeholder="Enter Email OTP"

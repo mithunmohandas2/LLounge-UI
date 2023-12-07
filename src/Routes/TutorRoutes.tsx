@@ -1,9 +1,17 @@
-import React from "react"
-import { Route, Routes } from "react-router-dom"
+import React, { useEffect } from "react"
+import { Route, Routes, useNavigate } from "react-router-dom"
 import TutorHomePage from "../Pages/Tutor/TutorHomePage"
 import Error404 from "../Pages/CommonPages/Error404"
 
 const TutorRoutes: React.FC = () => {
+    const Navigate = useNavigate()
+
+    useEffect(() => {
+        if (!localStorage.getItem('token')) {
+            Navigate('/unauthorized')
+        }
+    }, [])
+
     return (
         <>
             <Routes>

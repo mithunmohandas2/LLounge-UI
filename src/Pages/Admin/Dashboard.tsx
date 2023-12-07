@@ -1,6 +1,7 @@
+import AdminHeader from "../../components/AdminComponents/AdminHeader/AdminHeader"
 function Dashboard() {
   return (
-    <div>Dashboard</div>
+    <AdminHeader />
   )
 }
 

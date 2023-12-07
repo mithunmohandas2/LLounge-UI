@@ -5,6 +5,7 @@ import LoginPage from "../Pages/CommonPages/LoginPage"
 import RegisterPage from "../Pages/User/RegisterPage"
 import OtpLoginPage from "../Pages/CommonPages/OtpLoginPage"
 import Error404 from "../Pages/CommonPages/Error404"
+import Error401 from "../Pages/CommonPages/Error401"
 
 const UserRoutes: React.FC = () => {
     return (
@@ -18,6 +19,7 @@ const UserRoutes: React.FC = () => {
                 
                 <Route path="/admin/*" />
                 <Route path="/tutor/*" />
+                <Route path="/unauthorized"  element={<Error401 />}/>
                 <Route path="*" element={<Error404 />} />
             </Routes>
         </>
