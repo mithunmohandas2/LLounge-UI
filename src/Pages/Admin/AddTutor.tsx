@@ -67,12 +67,13 @@ function AddTutor() {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
+        outerHeight: 100,
     };
 
     return (
         <>
             <AdminHeader />
-            <div className="flex min-h-screen flex-col justify-center px-6 lg:px-8" style={backgroundImageStyle}>
+            <div className="flex py-16 flex-col justify-center px-6 lg:px-8" style={backgroundImageStyle}>
                 <Toaster />
                 <div className='p-8 bg-slate-100 rounded-2xl mx-auto'>
                     <div className="sm:mx-auto sm:w-full sm:max-w-3xl">

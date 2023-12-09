@@ -63,7 +63,7 @@ function UserList() {
                                 <th className="border px-4 py-2">Photo</th>
                                 <th className="border px-4 py-2">Name</th>
                                 <th className="border px-4 py-2">Email</th>
-                                <th className="border px-4 py-2">Role</th>
+                                <th className="border px-4 py-2">Phone</th>
                                 <th className="border px-4 py-2">Status</th>
                                 <th className="border px-4 py-2">Actions</th>
                             </tr>
@@ -76,7 +76,7 @@ function UserList() {
                                     </td>
                                     <td className="border px-4 py-2">{user.firstName} {user.lastName}</td>
                                     <td className="border px-4 py-2">{user.email}</td>
-                                    <td className="border px-4 py-2">{user.role}</td>
+                                    <td className="border px-4 py-2">{user.phone}</td>
                                     <td className="border px-4 py-2">{user.isBlocked ? '⛔' : '✔️'}</td>
                                     <td className="border px-4 py-2">
                                         <button onClick={() => statusChangeHandler(user._id!)} className="custom-btn btn-12"><span>{user.isBlocked ? 'UNBLOCK' : 'BLOCK'}</span><span>{user.isBlocked ? 'BLOCKED' : 'ACTIVE'}</span></button>
