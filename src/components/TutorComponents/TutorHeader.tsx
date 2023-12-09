@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { logout } from '../../../features/user/userSlice';
+import { logout } from '../../features/user/userSlice';
 
-function AdminHeader() {
-
+function TutorHeader() {
+  
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const Navigate = useNavigate()
     const dispatch = useDispatch()
@@ -29,7 +29,7 @@ function AdminHeader() {
     return (
         <header className="bg-slate-50 text-black sticky top-0 z-10">
             <section className="max-w-4xl mx-auto p-4 flex justify-between items-center">
-                <div className="flex cursor-pointer" onClick={() => Navigate("/admin")}>
+                <div className="flex cursor-pointer" onClick={() => Navigate("/tutor")}>
                     <img style={{ width: 35 }} src="/images/LL-Logo.png" alt="Logo" />
                     <span className="text-3xl font-medium ms-2  text-cyan-600">Learner's Lounge</span>
                 </div>
@@ -39,12 +39,11 @@ function AdminHeader() {
                         &#9776;
                     </button>
 
-                    {/* Nav for laptops */}
-                    <nav className="hidden sm:block space-x-12 text-xl mx-5" aria-label="main">
-                        <span onClick={() => Navigate("/admin/notifications")} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">🔔 Alerts</span>
-                        <span onClick={() => Navigate("/admin/courses")} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">📖 Courses</span>
-                        <span onClick={() => Navigate("/admin/manageUsers")} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">👥 Users</span>
-                        <span onClick={() => Navigate("/admin/profile")} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">👦🏻 Profile</span>
+                    {/* expanded Nav for web */}
+                    <nav className="hidden sm:block space-x-12 text-xl" aria-label="main">
+                        <span onClick={() => Navigate("/tutor/notifications")} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">🔔 Alerts</span>
+                        <span onClick={() => Navigate("/tutor/courses")} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">📖 Courses</span>
+                        <span onClick={() => Navigate("/tutor/profile")} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">👦🏻 Profile</span>
                     </nav>
 
                 </div>
@@ -57,20 +56,17 @@ function AdminHeader() {
 
             <section>
                 {isMenuOpen && <div>
-                    {/* expanded Nav for mobile */}
+                    {/* expanded Nav for web */}
                     <nav aria-label="mobile" className=''>
                         <ul className='py-3'>
                             <li className='py-3 text-center' >
-                                <span onClick={() => { Navigate("/admin/notifications"); toggleMenu() }} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">🔔 Notifications</span>
+                                <span onClick={() => { Navigate("/tutor/notifications"); toggleMenu() }} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">🔔 Alerts</span>
                             </li>
                             <li className='py-3 text-center'>
-                                <span onClick={() => { Navigate("/admin/courses"); toggleMenu() }} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">📖 Courses</span>
-                            </li>
-                            <li className='py-3 text-center' >
-                                <span onClick={() => { Navigate("/admin/manageUsers"); toggleMenu() }} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">👥 Users</span>
+                                <span onClick={() => { Navigate("/tutor/courses"); toggleMenu() }} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">📖 Courses</span>
                             </li>
                             <li className='py-3 text-center'>
-                                <span onClick={() => { Navigate("/admin/profile"); toggleMenu() }} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">👦🏻 Profile</span>
+                                <span onClick={() => { Navigate("/tutor/profile"); toggleMenu() }} className="text-cyan-700 hover:opacity-70 lineEffect cursor-pointer">👦🏻 Profile</span>
                             </li>
                             <li className='py-3 text-center'>
                                 <p><span className='lineEffect cursor-pointer' onClick={handleLogout}>Logout</span></p>
@@ -83,4 +79,4 @@ function AdminHeader() {
     )
 }
 
-export default AdminHeader
+export default TutorHeader

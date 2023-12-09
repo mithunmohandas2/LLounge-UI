@@ -1,6 +1,5 @@
-import '../Header/Header.css'
-import ContactForm from '../ContactForm/ContactForm'
-import CourseDetailCard from '../CourseDetails/CourseDetail'
+import ContactForm from './ContactForm/ContactForm'
+import CourseDetailCard from './CourseDetails/CourseDetail'
 function Main() {
 
     return (

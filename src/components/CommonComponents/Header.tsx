@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { logout } from '../../../features/user/userSlice';
-import './Header.css'
+import { logout } from '../../features/user/userSlice';
 
 function Header() {
 

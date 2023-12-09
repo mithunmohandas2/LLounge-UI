@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import '../../components/CommonComponents/Header/Header.css'
 import backgroundImg from '/images/loginBg.jpg'
 import { isValidEmail, isValidPassword } from '../../Services/validations';
 import { LoginAPI } from '../../Services/InteractionsAPI';
