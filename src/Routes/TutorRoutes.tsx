@@ -1,22 +1,42 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Route, Routes, useNavigate } from "react-router-dom"
 import TutorHomePage from "../Pages/Tutor/TutorHomePage"
 import Error404 from "../Pages/CommonPages/Error404"
+import Profile from "../Pages/CommonPages/Profile"
+import { tokenDecodeAPI } from "../Services/InteractionsAPI"
+import { useDispatch } from "react-redux"
+import { logout } from "../features/user/userSlice"
 
 const TutorRoutes: React.FC = () => {
     const Navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [Protected, setProtected] = useState(true)
 
-    useEffect(() => {
+    useEffect(() => {   //check for token and Block status for every component update
         if (!localStorage.getItem('token')) {
-            Navigate('/unauthorized')
+            return Navigate('/unauthorized')
+        } else {
+            (async () => {
+                const role = localStorage.getItem('role')
+                if (role !== 'tutor') return Navigate('/unauthorized')
+                const token = localStorage.getItem('token')
+                const userData = await tokenDecodeAPI(token!)
+                // console.log('userDataFromToken', userData?.data?.isBlocked)
+                if (userData?.data?.isBlocked) {
+                    setProtected(false);
+                    dispatch(logout());
+                    return Navigate('/unauthorized')
+                }
+            })()
         }
-    }, [])
+    })
 
     return (
         <>
             <Routes>
-                <Route path="" element={<TutorHomePage />} />
-                
+                {Protected && <Route path="" element={<TutorHomePage />} />}
+                {Protected && <Route path="/profile" element={<Profile />} />}
+
                 <Route path="*" element={<Error404 />} />
             </Routes>
         </>

@@ -94,6 +94,21 @@ const blockUserAPI = async (_id: string) => {
     }
 }
 
+const tokenDecodeAPI = async (token: string) => {
+    try {
+        const url = baseUrlAPI + '/user/tokenDecode';    // get userData from token
+        const data = { token };
+
+        const response = await axios.post(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 
 export {
     SignupAPI,
@@ -102,4 +117,5 @@ export {
     OtpLoginAPI,
     loadUsersAPI,
     blockUserAPI,
+    tokenDecodeAPI,
 }
