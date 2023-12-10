@@ -6,6 +6,7 @@ import Profile from "../Pages/CommonPages/Profile"
 import { tokenDecodeAPI } from "../Services/InteractionsAPI"
 import { useDispatch } from "react-redux"
 import { logout } from "../features/user/userSlice"
+import TutorHeader from "../components/TutorComponents/TutorHeader"
 
 const TutorRoutes: React.FC = () => {
     const Navigate = useNavigate()
@@ -35,7 +36,7 @@ const TutorRoutes: React.FC = () => {
         <>
             <Routes>
                 {Protected && <Route path="" element={<TutorHomePage />} />}
-                {Protected && <Route path="/profile" element={<Profile />} />}
+                {Protected && <Route path="/profile" element={<Profile header={<TutorHeader/>} />} />}
 
                 <Route path="*" element={<Error404 />} />
             </Routes>

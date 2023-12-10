@@ -8,6 +8,7 @@ import Profile from '../Pages/CommonPages/Profile'
 import { tokenDecodeAPI } from '../Services/InteractionsAPI'
 import { useDispatch } from 'react-redux'
 import { logout } from '../features/user/userSlice'
+import AdminHeader from '../components/AdminComponents/AdminHeader/AdminHeader'
 
 const AdminRoutes: React.FC = () => {
     const Navigate = useNavigate()
@@ -40,7 +41,7 @@ const AdminRoutes: React.FC = () => {
                     <Route path="" element={<Dashboard />} />
                     <Route path="/manageUsers" element={<ManageUsers />} />
                     <Route path="/addTutor" element={<AddTutor />} />
-                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/profile" element={<Profile header={<AdminHeader/>} />} />
 
                     <Route path="*" element={<Error404 />} />
                 </Routes>
