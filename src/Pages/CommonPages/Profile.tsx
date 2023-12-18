@@ -4,11 +4,10 @@ import { UserTypeRedux } from "../../Types/UserTypes"
 
 function Profile(props: { header: JSX.IntrinsicAttributes }) {
     const data = useSelector((state:UserTypeRedux) => state?.user?.userData)
-    console.log(data)
     return (
         <>
             {props ? props.header : null}
-            <div className="container mx-auto my-5 flex flex-col sm:flex-row">
+            <div className="container mx-auto my-5 flex flex-col sm:flex-row justify-evenly">
                 <div className=" justify-center bg-blue-100 p-7 m-4">
                     <img className="zoomEffect" src="https://t4.ftcdn.net/jpg/04/00/24/31/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3.jpg" alt="profile pic" />
                 </div>

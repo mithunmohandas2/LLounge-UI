@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { baseUrlAPI } from '../app/links'
+import { courseData } from '../Types/CourseTypes';
 
 const SignupAPI = async (firstName: string, lastName: string, email: string, phone: string, password: string, role?: string) => {
     try {
@@ -109,6 +110,34 @@ const tokenDecodeAPI = async (token: string) => {
     }
 }
 
+const createCourseAPI = async (courseData: courseData) => {
+    try {
+        const url = baseUrlAPI + '/tutor/createCourse';
+        const data = { ...courseData };
+
+        const response = await axios.post(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
+const listCoursesAPI = async (tutorId: string) => {
+    try {
+        const url = baseUrlAPI + `/tutor/courses?tutorId=${tutorId}`;
+        const response = await axios.get(url)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 
 export {
     SignupAPI,
@@ -118,4 +147,6 @@ export {
     loadUsersAPI,
     blockUserAPI,
     tokenDecodeAPI,
+    createCourseAPI,
+    listCoursesAPI,
 }

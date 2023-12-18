@@ -7,6 +7,8 @@ import { tokenDecodeAPI } from "../Services/InteractionsAPI"
 import { useDispatch } from "react-redux"
 import { logout } from "../features/user/userSlice"
 import TutorHeader from "../components/TutorComponents/TutorHeader"
+import Courses from "../Pages/Tutor/Courses"
+import AddCourse from "../Pages/Tutor/AddCourse"
 
 const TutorRoutes: React.FC = () => {
     const Navigate = useNavigate()
@@ -36,7 +38,9 @@ const TutorRoutes: React.FC = () => {
         <>
             <Routes>
                 {Protected && <Route path="" element={<TutorHomePage />} />}
-                {Protected && <Route path="/profile" element={<Profile header={<TutorHeader/>} />} />}
+                {Protected && <Route path="/profile" element={<Profile header={<TutorHeader />} />} />}
+                {Protected && <Route path="/courses" element={<Courses />} />}
+                {Protected && <Route path="/addCourse" element={<AddCourse />} />}
 
                 <Route path="*" element={<Error404 />} />
             </Routes>
