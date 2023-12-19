@@ -17,6 +17,9 @@ const userSlice = createSlice({
             // Set a key-value pair in local storage to store JWT Token
             localStorage.setItem('token', action.payload.token);
             localStorage.setItem('name', action.payload.data.firstName);
+            localStorage.setItem('_id', action.payload.data._id);
+            localStorage.setItem('email', action.payload.data.email);
+            localStorage.setItem('phone', action.payload.data.phone);
             localStorage.setItem('role', action.payload.data.role);
         },
         logout: (state) => {

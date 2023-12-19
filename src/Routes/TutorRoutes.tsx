@@ -41,6 +41,7 @@ const TutorRoutes: React.FC = () => {
                 {Protected && <Route path="/profile" element={<Profile header={<TutorHeader />} />} />}
                 {Protected && <Route path="/courses" element={<Courses />} />}
                 {Protected && <Route path="/addCourse" element={<AddCourse />} />}
+                {Protected && <Route path="/editCourse" element={<AddCourse edit />} />}
 
                 <Route path="*" element={<Error404 />} />
             </Routes>

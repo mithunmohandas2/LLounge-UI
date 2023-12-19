@@ -10,6 +10,11 @@ function isValidPhoneNumber(phone: string) {
     return phoneRegex.test(phone);
 }
 
+function isValidFee(fee: string) {
+    const feeRegex = /^\d+(\.\d+)?$/; // Allows decimal point anywhere in the number
+    return feeRegex.test(fee);
+  }
+
 // Validation function for password minimum length
 function isValidPassword(password: string) {
     return password.length >= 6; // minimum length of password
@@ -25,4 +30,5 @@ export {
     isValidPhoneNumber,
     isValidPassword,
     isValidName,
+    isValidFee,
 }

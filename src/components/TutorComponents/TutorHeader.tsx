@@ -19,7 +19,7 @@ function TutorHeader() {
     }, [])
 
     const handleLogout = () => {
-        let confirmed = window.confirm('Confirm Logout?')
+        const confirmed = window.confirm('Confirm Logout?')
         if (confirmed) {
             dispatch(logout());
             Navigate('/login');

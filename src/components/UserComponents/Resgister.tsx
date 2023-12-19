@@ -60,8 +60,8 @@ function Resgister() {
                 toast.error(response?.response?.data?.message)
             }
 
-        } catch (error: any) {
-            console.log(error.message);
+        } catch (error) {
+            console.log((error as Error).message);
         }
     }
     const backgroundImageStyle = {

@@ -125,10 +125,52 @@ const createCourseAPI = async (courseData: courseData) => {
     }
 }
 
+const editCourseAPI = async (courseData: courseData) => {
+    try {
+        const url = baseUrlAPI + '/tutor/editCourse';
+        const data = { ...courseData };
+
+        const response = await axios.put(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 const listCoursesAPI = async (tutorId: string) => {
     try {
         const url = baseUrlAPI + `/tutor/courses?tutorId=${tutorId}`;
         const response = await axios.get(url)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
+const courseDetailsAPI = async (_id: string) => {
+    try {
+        const url = baseUrlAPI + `/tutor/courses?_id=${_id}`;
+        const response = await axios.get(url)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
+const blockCoursesAPI = async (_id: string) => {
+    try {
+        const url = baseUrlAPI + "/tutor/blockCourse";
+        const data = { courseId: _id }
+        const response = await axios.put(url, data)
         if (response.data) {
             return response.data
         }
@@ -148,5 +190,8 @@ export {
     blockUserAPI,
     tokenDecodeAPI,
     createCourseAPI,
+    editCourseAPI,
     listCoursesAPI,
+    courseDetailsAPI,
+    blockCoursesAPI,
 }

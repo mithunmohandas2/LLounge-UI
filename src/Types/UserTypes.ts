@@ -23,7 +23,6 @@ interface User {
 }
 
 interface UserTypeRedux {
-    user: any;
     userData: null | User,
     token: null | string,
 }

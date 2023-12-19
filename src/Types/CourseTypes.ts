@@ -1,13 +1,16 @@
 export interface courseData {
     _id?:string,
+    courseId?:string,
     courseName:string,
     branchId:string,
     description:string,
-    tutor:string,
+    tutor?:string,
     fee:string,
+    status?:string,
+    isBlocked?: boolean;
 };
 
-export interface Branch extends Document {
+export interface Branch {
     _id: string;
     branchName: string;
     isBlocked: boolean;
@@ -15,7 +18,7 @@ export interface Branch extends Document {
     updatedAt: Date;
 }
 
-export interface Module extends Document {
+export interface Module {
     courseId: string;
     content: string;
     duration: string;

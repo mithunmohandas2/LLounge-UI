@@ -57,7 +57,7 @@ function OtpLogin() {
 
         toast.success('OTP Send successfully')
 
-        let timerOn = true;
+        const timerOn = true;
         function timer(remaining: number) {
             var m = Math.floor(remaining / 60);
             var m_string = m.toString();
