@@ -22,7 +22,7 @@ export interface Module {
     courseId: string;
     content: string;
     duration: string;
-    materials: string;
+    materials?: string;
     modName: string;
 }
 

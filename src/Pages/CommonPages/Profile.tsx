@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { JSX } from "react/jsx-runtime"
-import { UserTypeRedux } from "../../Types/UserTypes"
+import { UserTypeRedux } from "../../types/userTypes"
 
 function Profile(props: { header: JSX.IntrinsicAttributes }) {
     const data = useSelector((state:UserTypeRedux) => state?.user?.userData)

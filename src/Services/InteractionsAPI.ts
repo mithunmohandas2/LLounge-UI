@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { baseUrlAPI } from '../app/links'
-import { courseData } from '../Types/CourseTypes';
+import { Module, courseData } from '../types/courseTypes';
 
 const SignupAPI = async (firstName: string, lastName: string, email: string, phone: string, password: string, role?: string) => {
     try {
@@ -180,6 +180,21 @@ const blockCoursesAPI = async (_id: string) => {
     }
 }
 
+const createModuleAPI = async (moduleData: Module) => {
+    try {
+        const url = baseUrlAPI + '/tutor/addModule';
+        const data = { ...moduleData };
+
+        const response = await axios.put(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 
 export {
     SignupAPI,
@@ -194,4 +209,5 @@ export {
     listCoursesAPI,
     courseDetailsAPI,
     blockCoursesAPI,
+    createModuleAPI,
 }

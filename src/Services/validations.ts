@@ -15,6 +15,11 @@ function isValidFee(fee: string) {
     return feeRegex.test(fee);
   }
 
+function isValidDuration(time: string) {
+    const timeRegex = /^\d+(\.\d+)?$/; // Allows decimal point anywhere in the number
+    return timeRegex.test(time);
+  }
+
 // Validation function for password minimum length
 function isValidPassword(password: string) {
     return password.length >= 6; // minimum length of password
@@ -31,4 +36,5 @@ export {
     isValidPassword,
     isValidName,
     isValidFee,
+    isValidDuration,
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { blockUserAPI, loadUsersAPI } from '../../../Services/InteractionsAPI'
-import { User } from '../../../Types/UserTypes';
-import './userList.css'
+import { blockUserAPI, loadUsersAPI } from '../../../services/interactionsAPI'
+import { User } from '../../../types/userTypes';
+import './UserList.css'
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 

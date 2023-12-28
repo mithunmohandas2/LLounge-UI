@@ -4,8 +4,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/user/userSlice'
 import backgroundImg from '/images/loginBg.jpg'
-import { OtpLoginAPI, sendOtpAPI } from '../../Services/InteractionsAPI';
-import { isValidEmail } from '../../Services/validations';
+import { OtpLoginAPI, sendOtpAPI } from '../../services/interactionsAPI';
+import { isValidEmail } from '../../services/validations';
 
 
 function OtpLogin() {

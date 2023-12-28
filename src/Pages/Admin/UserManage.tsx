@@ -1,5 +1,5 @@
 import AdminHeader from "../../components/AdminComponents/AdminHeader/AdminHeader";
-import UserList from "../../components/AdminComponents/userList/UserList";
+import UserList from "../../components/AdminComponents/UserList/UserList";
 
 function UserManage() {
     return (

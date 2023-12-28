@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import backgroundImg from '/images/loginBg.jpg'
-import { isValidEmail, isValidPassword } from '../../Services/validations';
-import { LoginAPI } from '../../Services/InteractionsAPI';
+import { isValidEmail, isValidPassword } from '../../services/validations';
+import { LoginAPI } from '../../services/interactionsAPI';
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/user/userSlice';
 

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import backgroundImg from '/images/loginBg.jpg';
-import { isValidEmail, isValidName, isValidPassword, isValidPhoneNumber } from '../../Services/validations'
-import { SignupAPI } from '../../Services/InteractionsAPI';
+import { isValidEmail, isValidName, isValidPassword, isValidPhoneNumber } from '../../services/validations'
+import { SignupAPI } from '../../services/interactionsAPI';
 
 function Resgister() {
     const [firstName, setFirstName] = useState("");
