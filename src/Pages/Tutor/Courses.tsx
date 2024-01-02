@@ -26,12 +26,13 @@ function Courses() {
     const handleUnlist = async (_id: string) => {
         const confirmed = window.confirm(`Sure to change block status?`)
         if (!confirmed) return
-        const isBlock = await blockCoursesAPI(_id)
+        const role = "tutor"
+        const isBlock = await blockCoursesAPI(_id, role)
         toast.success(isBlock.message)
         setChange(change === 1 ? 2 : 1)
     }
 
-    const handleSearch = (keyword:string) => {
+    const handleSearch = (keyword: string) => {
         const regex = new RegExp(keyword, 'i');
         setSearchResult(courses?.filter((course) => regex.test(course?.courseName))); //find products with keyword
     }
@@ -51,7 +52,7 @@ function Courses() {
                 {/* -------------- SEARCH BOX ----------------- */}
 
                 <div className="container mx-auto py-4 w-1/2 my-auto">
-                    <form className="group relative" onSubmit={(e)=>e.preventDefault()}>
+                    <form className="group relative" onSubmit={(e) => e.preventDefault()}>
                         <input className="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2  pl-10 pr-4 ring-1 ring-slate-200 shadow-sm truncate" type="text" aria-label="Filter projects" placeholder="Search courses..." onChange={(e) => handleSearch(e.target.value)} />
                     </form>
                     <svg width="20" height="20" fill="currentColor" className="absolute right-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-blue-500 cursor-pointer" aria-hidden="true">

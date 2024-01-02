@@ -153,9 +153,9 @@ const listCoursesAPI = async (tutorId: string) => {
     }
 }
 
-const courseDetailsAPI = async (_id: string) => {
+const listBranchesAPI = async () => {
     try {
-        const url = baseUrlAPI + `/tutor/courses?_id=${_id}`;
+        const url = baseUrlAPI + `/admin/branches`;
         const response = await axios.get(url)
         if (response.data) {
             return response.data
@@ -166,9 +166,35 @@ const courseDetailsAPI = async (_id: string) => {
     }
 }
 
-const blockCoursesAPI = async (_id: string) => {
+const listAllCoursesAPI = async () => {
     try {
-        const url = baseUrlAPI + "/tutor/blockCourse";
+        const url = baseUrlAPI + `/admin/courses`;
+        const response = await axios.get(url)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
+const courseDetailsAPI = async (_id: string) => {
+    try {
+        const url = baseUrlAPI + `/user/courses?_id=${_id}`;
+        const response = await axios.get(url)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
+const blockCoursesAPI = async (_id: string, role: string) => {
+    try {
+        const url = baseUrlAPI + `/${role}/blockCourse`;
         const data = { courseId: _id }
         const response = await axios.put(url, data)
         if (response.data) {
@@ -195,6 +221,20 @@ const createModuleAPI = async (moduleData: Module) => {
     }
 }
 
+const createBranchAPI = async (branchName: string) => {
+    try {
+        const url = baseUrlAPI + '/admin/createBranch';
+        const data = { branchName: branchName }
+        const response = await axios.post(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 
 export {
     SignupAPI,
@@ -207,7 +247,10 @@ export {
     createCourseAPI,
     editCourseAPI,
     listCoursesAPI,
+    listBranchesAPI,
+    listAllCoursesAPI,
     courseDetailsAPI,
     blockCoursesAPI,
     createModuleAPI,
+    createBranchAPI,
 }

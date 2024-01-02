@@ -9,6 +9,8 @@ import { tokenDecodeAPI } from '../services/interactionsAPI'
 import { useDispatch } from 'react-redux'
 import { logout } from '../features/user/userSlice'
 import AdminHeader from '../components/AdminComponents/AdminHeader/AdminHeader'
+import CourseManage from '../Pages/Admin/CourseManage'
+import CourseDetails from '../Pages/Admin/CourseDetails'
 
 const AdminRoutes: React.FC = () => {
     const Navigate = useNavigate()
@@ -40,6 +42,8 @@ const AdminRoutes: React.FC = () => {
                 <Routes>
                     <Route path="" element={<Dashboard />} />
                     <Route path="/manageUsers" element={<ManageUsers />} />
+                    <Route path="/courses" element={<CourseManage />} />
+                    <Route path="/course" element={<CourseDetails />} />
                     <Route path="/addTutor" element={<AddTutor />} />
                     <Route path="/profile" element={<Profile header={<AdminHeader/>} />} />
 
