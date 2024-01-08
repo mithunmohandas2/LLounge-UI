@@ -1,13 +1,15 @@
 export interface courseData {
-    _id?:string,
-    courseId?:string,
-    courseName:string,
-    branchId:string,
-    description:string,
-    tutor?:string,
-    fee:string,
-    status?:string,
+    _id?: string,
+    courseId?: string,
+    courseName: string,
+    branchId: string,
+    description: string,
+    tutor?: string,
+    fee: string,
+    status?: string,
     isBlocked?: boolean;
+    modules?: Module[],
+    image?: string,
 };
 
 export interface Branch {
@@ -19,6 +21,7 @@ export interface Branch {
 }
 
 export interface Module {
+    _id?: string;
     courseId: string;
     content: string;
     duration: string;

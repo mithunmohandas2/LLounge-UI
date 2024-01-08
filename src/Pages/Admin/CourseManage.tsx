@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { blockCoursesAPI, listAllCoursesAPI } from "../../services/interactionsAPI"
 import { courseData } from "../../types/courseTypes"
 import BranchList from "../../components/AdminComponents/BranchList"
-import AdminHeader from "../../components/AdminComponents/AdminHeader/AdminHeader"
+import AdminHeader from "../../components/AdminComponents/AdminHeader"
 
 function CourseManage() {
   const Navigate = useNavigate()

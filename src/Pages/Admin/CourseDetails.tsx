@@ -1,5 +1,5 @@
 import { Toaster } from "react-hot-toast";
-import AdminHeader from "../../components/AdminComponents/AdminHeader/AdminHeader";
+import AdminHeader from "../../components/AdminComponents/AdminHeader";
 import { courseDetailsAPI } from "../../services/interactionsAPI";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";

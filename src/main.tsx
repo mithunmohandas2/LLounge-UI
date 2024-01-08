@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import Store from './app/store.ts'
 import { axiosInterceptor } from './services/axiosConfig.ts'
 
+
 axiosInterceptor()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

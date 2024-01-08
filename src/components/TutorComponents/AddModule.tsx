@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { createModuleAPI } from '../../services/interactionsAPI';
 import { isValidDuration } from '../../services/validations';
 
-function ModuleList(props: { ID: string, change: number, setChange: React.Dispatch<React.SetStateAction<number>> }) {
+function AddModule(props: { ID: string, change: number, setChange: React.Dispatch<React.SetStateAction<number>> }) {
     const [modName, setModName] = useState('');
     const [content, setContent] = useState('');
     const [duration, setDuration] = useState('');
@@ -25,6 +25,7 @@ function ModuleList(props: { ID: string, change: number, setChange: React.Dispat
             // console.log("newModule", response)    //test
             toast.success(response.message);
             props?.setChange(props?.change === 1 ? 2 : 1)
+            closeModal()
         } catch (error) {
             console.log((error as Error).message)
             toast.error((error as Error).message)
@@ -90,7 +91,7 @@ function ModuleList(props: { ID: string, change: number, setChange: React.Dispat
     )
 }
 
-export default ModuleList
+export default AddModule
 
 
 

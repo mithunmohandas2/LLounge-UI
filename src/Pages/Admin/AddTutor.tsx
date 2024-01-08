@@ -1,4 +1,4 @@
-import AdminHeader from "../../components/AdminComponents/AdminHeader/AdminHeader"
+import AdminHeader from "../../components/AdminComponents/AdminHeader"
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';

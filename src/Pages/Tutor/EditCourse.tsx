@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { courseDetailsAPI, editCourseAPI } from '../../services/interactionsAPI';
 import { isValidFee } from '../../services/validations';
-import ModuleList from '../../components/TutorComponents/ModuleList';
+import AddModule from '../../components/TutorComponents/AddModule';
+import { Module, courseData } from "../../types/courseTypes";
+import firebase from '../../firebase/config';
+import CourseImageEdit from '../../components/TutorComponents/CourseImageEdit';
+
 
 function EditCourse() {
     const [courseId, setCourseId] = useState('');
@@ -12,12 +16,15 @@ function EditCourse() {
     const [branchId, setBranchId] = useState('');
     const [description, setDescription] = useState('');
     const [fee, setFee] = useState('');
+    const [modules, setModules] = useState<Module[] | undefined>(undefined);
+    const [courseImg, setCourseImg] = useState('https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg')
     const [change, setChange] = useState(1);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const openEditModal = () => setIsEditModalOpen(true)    // Function to open the EditModal
     const closeEditModal = () => setIsEditModalOpen(false)  // Function to close the modal
     const tutor = localStorage.getItem("_id") || '656f144c942b35a3182bc55f'  //test
     const location = useLocation()
+    const storage = firebase
 
     async function handleEditCourse(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -33,10 +40,10 @@ function EditCourse() {
             return toast.error("Missing required fields");
         }
         try {
-            //for editing course
             const isEdited = await editCourseAPI(courseEditData); //for edit course api call
             toast.success(isEdited.message);
             setChange(change === 1 ? 2 : 1)
+            closeEditModal()
         } catch (error) {
             console.log((error as Error).message)
             toast.error((error as Error).message)
@@ -46,19 +53,19 @@ function EditCourse() {
     useEffect(() => {
         const query = location.search
         if (!query?.length) return
-        const _id = query.slice(query.indexOf('=') + 1, query.length)
-        // console.log(_id)
-        const getData = async () => {
-            const courseList = await courseDetailsAPI(_id)
-            const course = courseList.data
-            // console.log("course", course)
+        const _id = query.slice(query.indexOf('=') + 1, query.length)   //extracting Course ID from query
+        const getCourseData = async () => {
+            const courseList = await courseDetailsAPI(_id)             //fetch details of course
+            const course: courseData = courseList.data
+            // console.log("course", course) //test
             setCourseName(course?.courseName)
-            setCourseId(course?._id)
+            setCourseId(course?._id!)
             setDescription(course?.description)
             setFee(course?.fee)
+            setModules(course?.modules)
+            if (course?.image) setCourseImg(course?.image)
         }
-        getData()
-
+        getCourseData()
     }, [change])
 
     return (
@@ -66,16 +73,53 @@ function EditCourse() {
             <TutorHeader />
             <div className="flex flex-col justify-center px-6 py-14 sm:py-12 lg:px-8 bg-slate-300">
                 <div className="container px-5 m-3">
-                    <div className="flex">
-                        <h1 className='font-bold text-4xl my-3 text-cyan-600'>{courseName}</h1>
-                        <button style={{ width: 58 }} className="zoomEffect mx-3">
-                            <img style={{ width: 25, cursor: 'pointer' }} src="https://cdn-icons-png.flaticon.com/512/3597/3597075.png" alt="EditUser" onClick={() => openEditModal()} />
-                        </button>
-                    </div>
-                    <hr />
-                    <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Course Description</h4>
-                    <h4 className='m-3 text-slate-800 font-bold text-md md:text-xl'>{description}</h4>
+                    <section id="home" className="flex flex-col-reverse justify-center sm:flex-row p-6 pb-0 items-center gap-8 mb-12 scroll-mt-20">
+                        <div className="sm:w-1/2">
+                            <div className="flex">
+                                <h1 className='font-bold text-4xl my-3 text-cyan-600'>{courseName}</h1>
+                                <button style={{ width: 58 }} className="zoomEffect mx-3">
+                                    <img style={{ width: 25, cursor: 'pointer' }} src="https://cdn-icons-png.flaticon.com/512/3597/3597075.png" alt="EditUser" onClick={() => openEditModal()} />
+                                </button>
+                            </div>
+                            <hr />
+                            <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Course Description</h4>
+                            <h4 className='m-3 text-slate-800 font-bold text-md md:text-xl text-justify'>{description}</h4>
 
+                        </div>
+
+                        <div className="row">
+                            <img className="" src={courseImg} alt="Course Image" />
+                            <CourseImageEdit ID={courseId} setChange={setChange} change={change} />
+                        </div>
+
+                    </section>
+
+                    {/* --------MODULE SECTION---------- */}
+                    <section className="container mx-auto">
+                        <div className="mx-auto max-w-7xl px-2 md:px-0 my-4">
+                            <div className="grid grid-cols-1 gap-[30px] md:grid-cols-3">
+
+                                {modules?.length && modules.map((module) => (
+                                    <div key={module?._id}>
+                                        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden  m-6">
+                                            <div className="p-8 bg-white text-gray-500">
+                                                <div className="uppercase tracking-wide text-2xl text-indigo-500 font-semibold">{module?.modName}</div>
+                                                {/* <p className="my-2"> <strong>ID:</strong> {module._id} </p> */}
+                                                <p className="my-4"><strong>Description: </strong> {module?.content}</p>
+                                                <p className="my-4 text-xl"><strong>Duration: </strong>{module?.duration} hours</p>
+                                                <button
+                                                    // onClick={() => {  }}
+                                                    className="bg-slate-100 hover:bg-slate-200 text-cyan-600 font-bold py-2 px-4 m-2 rounded focus:outline-none focus:shadow-outline">
+                                                    Edit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+
+                            </div>
+                        </div>
+                    </section>
                 </div>
                 <Toaster />
 
@@ -129,10 +173,6 @@ function EditCourse() {
                                         </form>
 
                                     </div>
-
-
-
-
                                 </div>
                             </div>
 
@@ -141,10 +181,9 @@ function EditCourse() {
                     </div>
                 )}
 
-
                 {/* Module List */}
-                <ModuleList ID={courseId} setChange={setChange} change={change} />
-            </div>
+                <AddModule ID={courseId} setChange={setChange} change={change} />
+            </div >
         </>
     );
 }

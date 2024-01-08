@@ -8,7 +8,7 @@ import Profile from '../Pages/CommonPages/Profile'
 import { tokenDecodeAPI } from '../services/interactionsAPI'
 import { useDispatch } from 'react-redux'
 import { logout } from '../features/user/userSlice'
-import AdminHeader from '../components/AdminComponents/AdminHeader/AdminHeader'
+import AdminHeader from '../components/AdminComponents/AdminHeader'
 import CourseManage from '../Pages/Admin/CourseManage'
 import CourseDetails from '../Pages/Admin/CourseDetails'
 

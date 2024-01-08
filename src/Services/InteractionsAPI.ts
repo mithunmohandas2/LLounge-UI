@@ -140,6 +140,21 @@ const editCourseAPI = async (courseData: courseData) => {
     }
 }
 
+const editCourseImgAPI = async (courseData: { courseId: string, image: string }) => {
+    try {
+        const url = baseUrlAPI + '/tutor/editCourse';
+        const data = { ...courseData };
+
+        const response = await axios.put(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 const listCoursesAPI = async (tutorId: string) => {
     try {
         const url = baseUrlAPI + `/tutor/courses?tutorId=${tutorId}`;
@@ -246,6 +261,7 @@ export {
     tokenDecodeAPI,
     createCourseAPI,
     editCourseAPI,
+    editCourseImgAPI,
     listCoursesAPI,
     listBranchesAPI,
     listAllCoursesAPI,
