@@ -236,6 +236,21 @@ const createModuleAPI = async (moduleData: Module) => {
     }
 }
 
+const addMaterialsAPI = async (moduleData: { courseId: string, _id: string, materials: string }) => {
+    try {
+        const url = baseUrlAPI + '/tutor/addMaterials';
+        const data = { ...moduleData };
+
+        const response = await axios.put(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 const createBranchAPI = async (branchName: string) => {
     try {
         const url = baseUrlAPI + '/admin/createBranch';
@@ -268,5 +283,6 @@ export {
     courseDetailsAPI,
     blockCoursesAPI,
     createModuleAPI,
+    addMaterialsAPI,
     createBranchAPI,
 }

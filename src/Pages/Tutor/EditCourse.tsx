@@ -9,6 +9,7 @@ import { Module, courseData } from "../../types/courseTypes";
 import firebase from '../../firebase/config';
 import CourseImageEdit from '../../components/TutorComponents/CourseImageEdit';
 import EditModule from '../../components/TutorComponents/EditModule';
+import MaterialsEdit from '../../components/TutorComponents/MaterialsEdit';
 
 
 function EditCourse() {
@@ -79,7 +80,7 @@ function EditCourse() {
                             <div className="flex">
                                 <h1 className='font-bold text-4xl my-3 text-cyan-600'>{courseName}</h1>
                                 <button style={{ width: 58 }} className="zoomEffect mx-3">
-                                    <img style={{ width: 25, cursor: 'pointer' }} src="https://cdn-icons-png.flaticon.com/512/3597/3597075.png" alt="EditUser" onClick={() => openEditModal()} />
+                                    <img style={{ width: 25, cursor: 'pointer' }} src="https://cdn-icons-png.flaticon.com/512/3597/3597075.png" alt="Edit Course" onClick={() => openEditModal()} />
                                 </button>
                             </div>
                             <hr />
@@ -109,6 +110,14 @@ function EditCourse() {
                                                 <p className="my-4"><strong>Description: </strong> {module?.content}</p>
                                                 <p className="my-4 text-xl"><strong>Duration: </strong>{module?.duration} hours</p>
                                                 <EditModule courseId={courseId} module={module} setChange={setChange} change={change} />
+                                               
+                                                {module.materials ? <a target='_blank' href={module.materials}>
+                                                    <button className="bg-slate-100 hover:bg-slate-200 text-cyan-600 font-bold py-2 px-4 m-2 rounded focus:outline-none focus:shadow-outline">
+                                                        <img style={{ width: 25, cursor: 'pointer' }} src="https://cdn.icon-icons.com/icons2/402/PNG/512/open-file_40455.png" alt="view materials" />
+                                                    </button>
+                                                </a> : null}
+                                               
+                                                <MaterialsEdit courseId={courseId} module={module} setChange={setChange} change={change} />
                                             </div>
                                         </div>
                                     </div>
