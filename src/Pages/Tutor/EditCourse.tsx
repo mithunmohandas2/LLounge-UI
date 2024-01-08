@@ -8,6 +8,7 @@ import AddModule from '../../components/TutorComponents/AddModule';
 import { Module, courseData } from "../../types/courseTypes";
 import firebase from '../../firebase/config';
 import CourseImageEdit from '../../components/TutorComponents/CourseImageEdit';
+import EditModule from '../../components/TutorComponents/EditModule';
 
 
 function EditCourse() {
@@ -107,11 +108,7 @@ function EditCourse() {
                                                 {/* <p className="my-2"> <strong>ID:</strong> {module._id} </p> */}
                                                 <p className="my-4"><strong>Description: </strong> {module?.content}</p>
                                                 <p className="my-4 text-xl"><strong>Duration: </strong>{module?.duration} hours</p>
-                                                <button
-                                                    // onClick={() => {  }}
-                                                    className="bg-slate-100 hover:bg-slate-200 text-cyan-600 font-bold py-2 px-4 m-2 rounded focus:outline-none focus:shadow-outline">
-                                                    Edit
-                                                </button>
+                                                <EditModule courseId={courseId} module={module} setChange={setChange} change={change} />
                                             </div>
                                         </div>
                                     </div>
