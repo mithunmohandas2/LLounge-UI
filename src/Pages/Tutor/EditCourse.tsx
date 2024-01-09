@@ -6,10 +6,10 @@ import { courseDetailsAPI, editCourseAPI } from '../../services/interactionsAPI'
 import { isValidFee } from '../../services/validations';
 import AddModule from '../../components/TutorComponents/AddModule';
 import { Module, courseData } from "../../types/courseTypes";
-import firebase from '../../firebase/config';
 import CourseImageEdit from '../../components/TutorComponents/CourseImageEdit';
 import EditModule from '../../components/TutorComponents/EditModule';
 import MaterialsEdit from '../../components/TutorComponents/MaterialsEdit';
+import firebase from '../../firebase/config';
 
 
 function EditCourse() {
@@ -86,7 +86,9 @@ function EditCourse() {
                             <hr />
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Course Description</h4>
                             <h4 className='m-3 text-slate-800 font-bold text-md md:text-xl text-justify'>{description}</h4>
-
+                            <hr />
+                            <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Fee : ₹ {fee}/-</h4>
+                            <hr />
                         </div>
 
                         <div className="row">
@@ -110,13 +112,13 @@ function EditCourse() {
                                                 <p className="my-4"><strong>Description: </strong> {module?.content}</p>
                                                 <p className="my-4 text-xl"><strong>Duration: </strong>{module?.duration} hours</p>
                                                 <EditModule courseId={courseId} module={module} setChange={setChange} change={change} />
-                                               
+
                                                 {module.materials ? <a target='_blank' href={module.materials}>
                                                     <button className="bg-slate-100 hover:bg-slate-200 text-cyan-600 font-bold py-2 px-4 m-2 rounded focus:outline-none focus:shadow-outline">
                                                         <img style={{ width: 25, cursor: 'pointer' }} src="https://cdn.icon-icons.com/icons2/402/PNG/512/open-file_40455.png" alt="view materials" />
                                                     </button>
                                                 </a> : null}
-                                               
+
                                                 <MaterialsEdit courseId={courseId} module={module} setChange={setChange} change={change} />
                                             </div>
                                         </div>

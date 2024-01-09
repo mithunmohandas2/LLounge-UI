@@ -66,10 +66,11 @@ function CourseManage() {
                 <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden  m-6">
                   <div className=" ">
                     <div className="">
-                      <img className="h-48 w-full object-cover " src="https://images.pexels.com/photos/6863175/pexels-photo-6863175.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Course Image" />
+                      <img className="h-48 w-full object-cover " src={course?.image ? course?.image : "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"} alt="Course Image" />
                     </div>
                     <div className={course.isBlocked ? "p-8 bg-red-100 text-gray-500" : "p-8 bg-white text-gray-500"}>
-                      <div className="uppercase tracking-wide text-2xl text-indigo-500 font-semibold">{course.courseName}</div>
+                      <div className="uppercase tracking-wide text-2xl text-indigo-500 font-semibold">{course?.courseName}</div>
+                      <p className="my-2"> <strong>ID:</strong> {course._id} </p>
                       <p className="my-2"> <strong>Status: </strong> {course.status} </p>
                       <p className="my-4 text-xl"><strong>Fee: </strong>₹ {course.fee}/-</p>
                       <button
@@ -88,6 +89,8 @@ function CourseManage() {
                           className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                           Unlist
                         </button>}
+
+
                     </div>
                   </div>
                 </div>
