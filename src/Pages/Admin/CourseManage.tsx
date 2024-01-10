@@ -2,14 +2,14 @@ import toast, { Toaster } from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { blockCoursesAPI, listAllCoursesAPI } from "../../services/interactionsAPI"
-import { courseData } from "../../types/courseTypes"
+import { courseDataExpanded } from "../../types/courseTypes"
 import BranchList from "../../components/AdminComponents/BranchList"
 import AdminHeader from "../../components/AdminComponents/AdminHeader"
 
 function CourseManage() {
   const Navigate = useNavigate()
-  const [courses, setCourses] = useState<courseData[] | undefined>(undefined);
-  const [searchResult, setSearchResult] = useState<courseData[] | undefined>(undefined);
+  const [courses, setCourses] = useState<courseDataExpanded[] | undefined>(undefined);
+  const [searchResult, setSearchResult] = useState<courseDataExpanded[] | undefined>(undefined);
   const [change, setChange] = useState(1)
 
   useEffect(() => {
@@ -36,13 +36,22 @@ function CourseManage() {
     setSearchResult(courses?.filter((course) => regex.test(course?.courseName))); //find products with keyword
   }
 
+  function handleBranchFilter(branchID: string) {
+    if (branchID === 'all') {
+      setSearchResult(courses)
+    } else {
+      setSearchResult(courses?.filter((course) => course?.branchId?._id === branchID)); //find products with branch
+    }
+  }
+
+
   return (
     <>
       <AdminHeader />
       <Toaster />
       <h1 className='text-3xl m-7 font-semibold'>Course Management</h1>
 
-      <BranchList setChange={setChange} change={change} />
+      <BranchList setChange={setChange} change={change} handleBranchFilter={handleBranchFilter} />
 
       {/* -------------- SEARCH BOX ----------------- */}
       <div className="container mx-auto py-4 w-1/2 my-auto">
@@ -71,6 +80,7 @@ function CourseManage() {
                     <div className={course.isBlocked ? "p-8 bg-red-100 text-gray-500" : "p-8 bg-white text-gray-500"}>
                       <div className="uppercase tracking-wide text-2xl text-indigo-500 font-semibold">{course?.courseName}</div>
                       <p className="my-2"> <strong>ID:</strong> {course._id} </p>
+                      <p className="my-2"> <strong>Branch:</strong> {course.branchId?.branchName} </p>
                       <p className="my-2"> <strong>Status: </strong> {course.status} </p>
                       <p className="my-4 text-xl"><strong>Fee: </strong>₹ {course.fee}/-</p>
                       <button
@@ -89,8 +99,6 @@ function CourseManage() {
                           className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                           Unlist
                         </button>}
-
-
                     </div>
                   </div>
                 </div>

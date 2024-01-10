@@ -1,3 +1,5 @@
+import { User } from "./userTypes";
+
 export interface courseData {
     _id?: string,
     courseId?: string,
@@ -5,6 +7,20 @@ export interface courseData {
     branchId: string,
     description: string,
     tutor?: string,
+    fee: string,
+    status?: string,
+    isBlocked?: boolean;
+    modules?: Module[],
+    image?: string,
+};
+
+export interface courseDataExpanded {
+    _id?: string,
+    courseId?: string,
+    courseName: string,
+    branchId: Branch,
+    description: string,
+    tutor?: User,
     fee: string,
     status?: string,
     isBlocked?: boolean;

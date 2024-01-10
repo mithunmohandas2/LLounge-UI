@@ -170,7 +170,7 @@ const listCoursesAPI = async (tutorId: string) => {
 
 const listBranchesAPI = async () => {
     try {
-        const url = baseUrlAPI + `/admin/branches`;
+        const url = baseUrlAPI + `/user/branches`;
         const response = await axios.get(url)
         if (response.data) {
             return response.data

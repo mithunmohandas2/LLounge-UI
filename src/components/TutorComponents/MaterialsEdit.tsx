@@ -55,7 +55,7 @@ function MaterialsEdit(props: { courseId: string, module: Module, change: number
     return (
         <>
 
-            <button className='w-full py-2 mt-2 bg-cyan-600 text-white' onClick={() => openModal()}>{props?.module?.materials ? "Edit Materials" : "Add Materials"}</button>
+            <button className='w-full py-2 mt-2 bg-cyan-600 text-white' onClick={() => openModal()}>{props?.module?.materials ? "Edit Materials" : "➕ Add Materials"}</button>
 
             {/* Modal */}
             {isModalOpen && (

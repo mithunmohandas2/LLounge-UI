@@ -2,10 +2,10 @@ import toast, { Toaster } from 'react-hot-toast';
 import TutorHeader from '../../components/TutorComponents/TutorHeader';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { courseDetailsAPI, editCourseAPI } from '../../services/interactionsAPI';
+import { courseDetailsAPI, editCourseAPI, listBranchesAPI } from '../../services/interactionsAPI';
 import { isValidFee } from '../../services/validations';
 import AddModule from '../../components/TutorComponents/AddModule';
-import { Module, courseData } from "../../types/courseTypes";
+import { Branch, Module, courseData } from "../../types/courseTypes";
 import CourseImageEdit from '../../components/TutorComponents/CourseImageEdit';
 import EditModule from '../../components/TutorComponents/EditModule';
 import MaterialsEdit from '../../components/TutorComponents/MaterialsEdit';
@@ -16,8 +16,10 @@ function EditCourse() {
     const [courseId, setCourseId] = useState('');
     const [courseName, setCourseName] = useState('');
     const [branchId, setBranchId] = useState('');
+    const [allBranches, setAllBranches] = useState<Branch[] | undefined>(undefined);
     const [description, setDescription] = useState('');
     const [fee, setFee] = useState('');
+    const [branch, setBranch] = useState('');
     const [modules, setModules] = useState<Module[] | undefined>(undefined);
     const [courseImg, setCourseImg] = useState('https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg')
     const [change, setChange] = useState(1);
@@ -58,17 +60,27 @@ function EditCourse() {
         const _id = query.slice(query.indexOf('=') + 1, query.length)   //extracting Course ID from query
         const getCourseData = async () => {
             const courseList = await courseDetailsAPI(_id)             //fetch details of course
-            const course: courseData = courseList.data
+            const course = courseList.data
             // console.log("course", course) //test
             setCourseName(course?.courseName)
             setCourseId(course?._id!)
             setDescription(course?.description)
             setFee(course?.fee)
             setModules(course?.modules)
+            setBranch(course?.branchId?.branchName)
             if (course?.image) setCourseImg(course?.image)
         }
         getCourseData()
     }, [change])
+
+
+    useEffect(() => {
+        (async function () {
+            const branchList = await listBranchesAPI()  //fetch details of all branches
+            // console.log("branchList", branchList.data) //test
+            setAllBranches(branchList.data)
+        })();
+    }, [])
 
     return (
         <>
@@ -83,10 +95,10 @@ function EditCourse() {
                                     <img style={{ width: 25, cursor: 'pointer' }} src="https://cdn-icons-png.flaticon.com/512/3597/3597075.png" alt="Edit Course" onClick={() => openEditModal()} />
                                 </button>
                             </div>
-                            <hr />
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Course Description</h4>
                             <h4 className='m-3 text-slate-800 font-bold text-md md:text-xl text-justify'>{description}</h4>
                             <hr />
+                            <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Branch :</span> {branch}</h4>
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Fee : ₹ {fee}/-</h4>
                             <hr />
                         </div>
@@ -158,7 +170,9 @@ function EditCourse() {
                                                     placeholder="Branch ID" value={branchId} onChange={(e) => setBranchId(e.target.value)}>
                                                     {/* test - map from branches */}
                                                     <option className='text-opacity-40' value="">Select Branch</option>
-                                                    <option value="657999eb79d6e8d2cf58e3a5">Accounting</option>
+                                                    {allBranches?.map((branch) => (
+                                                        <option key={branch._id} value={branch._id}>{branch.branchName}</option>
+                                                    ))}
 
                                                 </select>
                                             </div>

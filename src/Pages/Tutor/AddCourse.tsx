@@ -1,13 +1,15 @@
 import toast, { Toaster } from 'react-hot-toast';
 import TutorHeader from '../../components/TutorComponents/TutorHeader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createCourseAPI } from '../../services/interactionsAPI';
+import { createCourseAPI, listBranchesAPI } from '../../services/interactionsAPI';
 import { isValidFee } from '../../services/validations';
+import { Branch } from '../../types/courseTypes';
 
 function AddCourse() {
     const [courseName, setCourseName] = useState('');
     const [branchId, setBranchId] = useState('');
+    const [allBranches, setAllBranches] = useState<Branch[] | undefined>(undefined);
     const [description, setDescription] = useState('');
     const [fee, setFee] = useState('');
     const tutor = localStorage.getItem("_id") || '656f144c942b35a3182bc55f'  //test
@@ -46,6 +48,15 @@ function AddCourse() {
         }
     }
 
+    useEffect(() => {
+        (async function () {
+            const branchList = await listBranchesAPI()  //fetch details of all branches
+            // console.log("branchList", branchList.data) //test
+            setAllBranches(branchList.data)
+        })();
+    }, [])
+
+
     return (
         <>
             <TutorHeader />
@@ -67,7 +78,9 @@ function AddCourse() {
                                     placeholder="Branch ID" value={branchId} onChange={(e) => setBranchId(e.target.value)}>
                                     {/* test - map from branches */}
                                     <option className='text-opacity-40' value="">Select Branch</option>
-                                    <option value="657999eb79d6e8d2cf58e3a5">Accounting</option>
+                                    {allBranches?.map((branch) => (
+                                        <option key={branch._id} value={branch._id}>{branch.branchName}</option>
+                                    ))}
 
                                 </select>
                             </div>

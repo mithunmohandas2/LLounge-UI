@@ -12,6 +12,8 @@ function CourseDetails() {
     const [courseName, setCourseName] = useState('');
     const [description, setDescription] = useState('');
     const [fee, setFee] = useState('');
+    const [tutor, setTutor] = useState('');
+    const [branch, setBranch] = useState('');
     const [modules, setModules] = useState<Module[] | undefined>(undefined);
     const [courseImg, setCourseImg] = useState('https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg')
     const location = useLocation()
@@ -24,14 +26,16 @@ function CourseDetails() {
         const _id = query.slice(query.indexOf('=') + 1, query.length)   //extracting Course ID from query
         const getCourseData = async () => {
             const courseList = await courseDetailsAPI(_id)             //fetch details of course
-            const course: courseData = courseList.data
+            const course = courseList.data
             // console.log("course", course) //test
             setCourseName(course?.courseName)
             setCourseId(course?._id!)
             setDescription(course?.description)
             setFee(course?.fee)
             setModules(course?.modules)
+            setBranch(course?.branchId?.branchName)
             if (course?.image) setCourseImg(course?.image)
+            if (course?.tutor?.firstName) setTutor(course?.tutor?.firstName + " " + course?.tutor?.lastName)
         }
         getCourseData()
     }, [])
@@ -48,12 +52,14 @@ function CourseDetails() {
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Course Description</h4>
                             <h4 className='m-3 text-slate-800 font-bold text-md md:text-xl text-justify'>{description}</h4>
                             <hr />
+                            <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">ID :</span> {courseId}</h4>
+                            <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Branch :</span> {branch}</h4>
+                            <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Tutor :</span> {tutor}</h4>
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Fee : ₹ {fee}/-</h4>
                             <hr />
                         </div>
 
                         <div className="row">
-                            <h4 className='m-2 text-slate-800 text-md md:text-xl text-end'>ID : {courseId}</h4>
                             <img className="" src={courseImg} alt="Course Image" />
                         </div>
 
@@ -74,8 +80,9 @@ function CourseDetails() {
                                                 <p className="my-4 text-xl"><strong>Duration: </strong>{module?.duration} hours</p>
 
                                                 {module.materials ? <a target='_blank' href={module.materials} className="text-indigo-500">
-                                                    View Materials
-                                                </a> : null}
+                                                    <p className="text-green-600"> ✔️ View Materials</p>
+                                                </a> : <p className="text-red-600"> ❌ No Materials</p>
+                                                }
 
                                             </div>
                                         </div>
