@@ -22,7 +22,7 @@ export interface courseDataExpanded {
     description: string,
     tutor?: User,
     fee: string,
-    status?: string,
+    status: string,
     isBlocked?: boolean;
     modules?: Module[],
     image?: string,

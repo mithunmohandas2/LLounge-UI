@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 import { logout } from '../features/user/userSlice'
 import AdminHeader from '../components/AdminComponents/AdminHeader'
 import CourseManage from '../Pages/Admin/CourseManage'
-import CourseDetails from '../Pages/Admin/CourseDetails'
+import CourseDetails from '../Pages/Admin/CourseDetailsAdmin'
 
 const AdminRoutes: React.FC = () => {
     const Navigate = useNavigate()

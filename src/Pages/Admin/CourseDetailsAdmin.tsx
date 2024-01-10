@@ -1,6 +1,6 @@
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import AdminHeader from "../../components/AdminComponents/AdminHeader";
-import { courseDetailsAPI } from "../../services/interactionsAPI";
+import { CourseStatusAPI, courseDetailsAPI } from "../../services/interactionsAPI";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import firebase from '../../firebase/config';
@@ -14,8 +14,10 @@ function CourseDetails() {
     const [fee, setFee] = useState('');
     const [tutor, setTutor] = useState('');
     const [branch, setBranch] = useState('');
+    const [status, setStatus] = useState('');
     const [modules, setModules] = useState<Module[] | undefined>(undefined);
     const [courseImg, setCourseImg] = useState('https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg')
+    const [change, setChange] = useState(1);
     const location = useLocation()
     const storage = firebase
 
@@ -34,11 +36,31 @@ function CourseDetails() {
             setFee(course?.fee)
             setModules(course?.modules)
             setBranch(course?.branchId?.branchName)
+            setStatus(course?.status)
             if (course?.image) setCourseImg(course?.image)
             if (course?.tutor?.firstName) setTutor(course?.tutor?.firstName + " " + course?.tutor?.lastName)
         }
         getCourseData()
-    }, [])
+    }, [change])
+
+    async function handleEditRequest(courseId: string) {
+        try {
+            const _id = courseId
+            const role = "admin"
+            const response = await CourseStatusAPI(_id, role); //for new course api call
+            console.log("response recieved", response)    //test
+            if (response) {
+                toast.success(response?.message);
+                setChange(change === 1 ? 2 : 1)
+            } else {
+                toast.error(response?.message)
+            }
+        } catch (error) {
+            console.log((error as Error).message)
+            toast.error((error as Error).message)
+        }
+    }
+
 
     return (
         <>
@@ -55,6 +77,10 @@ function CourseDetails() {
                             <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">ID :</span> {courseId}</h4>
                             <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Branch :</span> {branch}</h4>
                             <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Tutor :</span> {tutor}</h4>
+                            <div className="flex">
+                                <h4 className='my-1 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Status :</span> {status}</h4>
+                                {(status === "Sent for approval" || status === "Active" ) && <button onClick={() => handleEditRequest(courseId)} className='mx-3 px-3 rounded-xl text-white bg-orange-400 hover:bg-orange-500'>Request Correction</button>}
+                            </div>
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Fee : ₹ {fee}/-</h4>
                             <hr />
                         </div>

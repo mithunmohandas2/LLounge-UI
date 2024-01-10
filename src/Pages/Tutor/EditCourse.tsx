@@ -2,10 +2,10 @@ import toast, { Toaster } from 'react-hot-toast';
 import TutorHeader from '../../components/TutorComponents/TutorHeader';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { courseDetailsAPI, editCourseAPI, listBranchesAPI } from '../../services/interactionsAPI';
+import { CourseStatusAPI, courseDetailsAPI, editCourseAPI, listBranchesAPI } from '../../services/interactionsAPI';
 import { isValidFee } from '../../services/validations';
 import AddModule from '../../components/TutorComponents/AddModule';
-import { Branch, Module, courseData } from "../../types/courseTypes";
+import { Branch, Module, courseDataExpanded } from "../../types/courseTypes";
 import CourseImageEdit from '../../components/TutorComponents/CourseImageEdit';
 import EditModule from '../../components/TutorComponents/EditModule';
 import MaterialsEdit from '../../components/TutorComponents/MaterialsEdit';
@@ -19,6 +19,7 @@ function EditCourse() {
     const [allBranches, setAllBranches] = useState<Branch[] | undefined>(undefined);
     const [description, setDescription] = useState('');
     const [fee, setFee] = useState('');
+    const [status, setStatus] = useState('');
     const [branch, setBranch] = useState('');
     const [modules, setModules] = useState<Module[] | undefined>(undefined);
     const [courseImg, setCourseImg] = useState('https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg')
@@ -60,7 +61,7 @@ function EditCourse() {
         const _id = query.slice(query.indexOf('=') + 1, query.length)   //extracting Course ID from query
         const getCourseData = async () => {
             const courseList = await courseDetailsAPI(_id)             //fetch details of course
-            const course = courseList.data
+            const course: courseDataExpanded = courseList.data
             // console.log("course", course) //test
             setCourseName(course?.courseName)
             setCourseId(course?._id!)
@@ -68,6 +69,7 @@ function EditCourse() {
             setFee(course?.fee)
             setModules(course?.modules)
             setBranch(course?.branchId?.branchName)
+            setStatus(course?.status)
             if (course?.image) setCourseImg(course?.image)
         }
         getCourseData()
@@ -82,9 +84,28 @@ function EditCourse() {
         })();
     }, [])
 
+    async function handleCourseApproval(courseId: string) {
+        try {
+            const _id = courseId
+            const role = "tutor"
+            const response = await CourseStatusAPI(_id, role); //for new course api call
+            console.log("response recieved", response)    //test
+            if (response) {
+                toast.success(response?.message);
+                setChange(change === 1 ? 2 : 1)
+            } else {
+                toast.error(response?.message)
+            }
+        } catch (error) {
+            console.log((error as Error).message)
+            toast.error((error as Error).message)
+        }
+    }
+
     return (
         <>
             <TutorHeader />
+            <Toaster />
             <div className="flex flex-col justify-center px-6 py-14 sm:py-12 lg:px-8 bg-slate-300">
                 <div className="container px-5 m-3">
                     <section id="home" className="flex flex-col-reverse justify-center sm:flex-row p-6 pb-0 items-center gap-8 mb-12 scroll-mt-20">
@@ -99,6 +120,12 @@ function EditCourse() {
                             <h4 className='m-3 text-slate-800 font-bold text-md md:text-xl text-justify'>{description}</h4>
                             <hr />
                             <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Branch :</span> {branch}</h4>
+
+                            <div className="flex">
+                                <h4 className='my-1 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Status :</span> {status}</h4>
+                                {(status === "draft" || status === "Edit Requested" ) && <button onClick={() => handleCourseApproval(courseId)} className='mx-3 px-3 rounded-xl text-white bg-orange-400 hover:bg-orange-500'>Request Approval</button>}
+                            </div>
+
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Fee : ₹ {fee}/-</h4>
                             <hr />
                         </div>
@@ -141,7 +168,6 @@ function EditCourse() {
                         </div>
                     </section>
                 </div>
-                <Toaster />
 
                 {/* Modal */}
                 {isEditModalOpen && (
