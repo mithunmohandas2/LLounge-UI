@@ -5,7 +5,7 @@ import { isValidName } from '../../services/validations';
 import { createBranchAPI, listBranchesAPI } from '../../services/interactionsAPI';
 import { Branch } from '../../types/courseTypes';
 
-function BranchList(props: { setChange: (arg0: number) => void; change: unknown; handleBranchFilter: (arg0: string) => void; }) {
+function BranchList(props: { setChange: (arg0: number) => void; change: unknown; handleBranchFilter: (arg0: string) => void; user: boolean }) {
     const [branchName, setBranchName] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [branches, setBranches] = useState<Branch[] | undefined>(undefined);
@@ -50,7 +50,7 @@ function BranchList(props: { setChange: (arg0: number) => void; change: unknown;
                 ))}
 
                 {/* ----------- */}
-                <button className="outline text-cyan-600 hover:bg-cyan-600 hover:text-white font-bold p-2 mx-2 ml-6 rounded" onClick={() => openModal()} >  ➕Add Branch </button>
+                {!props.user && <button className="outline text-cyan-600 hover:bg-cyan-600 hover:text-white font-bold p-2 mx-2 ml-6 rounded" onClick={() => openModal()} >  ➕Add Branch </button>}
             </div>
             <br />
 

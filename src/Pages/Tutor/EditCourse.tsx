@@ -30,6 +30,8 @@ function EditCourse() {
     const tutor = localStorage.getItem("_id") || '656f144c942b35a3182bc55f'  //test
     const location = useLocation()
     const storage = firebase
+    if (!storage) console.log("firebase error")
+
 
     async function handleEditCourse(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -89,7 +91,7 @@ function EditCourse() {
             const _id = courseId
             const role = "tutor"
             const response = await CourseStatusAPI(_id, role); //for new course api call
-            console.log("response recieved", response)    //test
+            // console.log("response recieved", response)    //test
             if (response) {
                 toast.success(response?.message);
                 setChange(change === 1 ? 2 : 1)
@@ -116,6 +118,7 @@ function EditCourse() {
                                     <img style={{ width: 25, cursor: 'pointer' }} src="https://cdn-icons-png.flaticon.com/512/3597/3597075.png" alt="Edit Course" onClick={() => openEditModal()} />
                                 </button>
                             </div>
+                            <hr />
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Course Description</h4>
                             <h4 className='m-3 text-slate-800 font-bold text-md md:text-xl text-justify'>{description}</h4>
                             <hr />
@@ -123,7 +126,7 @@ function EditCourse() {
 
                             <div className="flex">
                                 <h4 className='my-1 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Status :</span> {status}</h4>
-                                {(status === "draft" || status === "Edit Requested" ) && <button onClick={() => handleCourseApproval(courseId)} className='mx-3 px-3 rounded-xl text-white bg-orange-400 hover:bg-orange-500'>Request Approval</button>}
+                                {(status === "draft" || status === "Edit Requested") && <button onClick={() => handleCourseApproval(courseId)} className='mx-3 px-3 rounded-xl text-white bg-orange-400 hover:bg-orange-500'>Request Approval</button>}
                             </div>
 
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Fee : ₹ {fee}/-</h4>

@@ -1,10 +1,10 @@
 import toast, { Toaster } from "react-hot-toast";
 import AdminHeader from "../../components/AdminComponents/AdminHeader";
-import { CourseStatusAPI, courseDetailsAPI } from "../../services/interactionsAPI";
+import { CourseStatusAPI, courseDetailsAPI, publishCourseAPI } from "../../services/interactionsAPI";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import firebase from '../../firebase/config';
-import { Module, courseData } from "../../types/courseTypes";
+import { Module, courseDataExpanded } from "../../types/courseTypes";
 
 
 function CourseDetails() {
@@ -20,7 +20,7 @@ function CourseDetails() {
     const [change, setChange] = useState(1);
     const location = useLocation()
     const storage = firebase
-
+    if (!storage) console.log("firebase error")
 
     useEffect(() => {
         const query = location.search
@@ -28,7 +28,7 @@ function CourseDetails() {
         const _id = query.slice(query.indexOf('=') + 1, query.length)   //extracting Course ID from query
         const getCourseData = async () => {
             const courseList = await courseDetailsAPI(_id)             //fetch details of course
-            const course = courseList.data
+            const course: courseDataExpanded = courseList.data
             // console.log("course", course) //test
             setCourseName(course?.courseName)
             setCourseId(course?._id!)
@@ -48,7 +48,7 @@ function CourseDetails() {
             const _id = courseId
             const role = "admin"
             const response = await CourseStatusAPI(_id, role); //for new course api call
-            console.log("response recieved", response)    //test
+            // console.log("response recieved", response)    //test
             if (response) {
                 toast.success(response?.message);
                 setChange(change === 1 ? 2 : 1)
@@ -61,6 +61,22 @@ function CourseDetails() {
         }
     }
 
+    async function handlePublishCourse() {
+        try {
+            const _id = courseId
+            const response = await publishCourseAPI(_id); //for new course api call
+            // console.log("response recieved", response)    //test
+            if (response) {
+                toast.success(response?.message);
+                setChange(change === 1 ? 2 : 1)
+            } else {
+                toast.error(response?.message)
+            }
+        } catch (error) {
+            console.log((error as Error).message)
+            toast.error((error as Error).message)
+        }
+    }
 
     return (
         <>
@@ -79,7 +95,7 @@ function CourseDetails() {
                             <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Tutor :</span> {tutor}</h4>
                             <div className="flex">
                                 <h4 className='my-1 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Status :</span> {status}</h4>
-                                {(status === "Sent for approval" || status === "Active" ) && <button onClick={() => handleEditRequest(courseId)} className='mx-3 px-3 rounded-xl text-white bg-orange-400 hover:bg-orange-500'>Request Correction</button>}
+                                {(status === "Sent for approval" || status === "Active") && <button onClick={() => handleEditRequest(courseId)} className='mx-3 px-3 rounded-xl text-white bg-orange-400 hover:bg-orange-500'>Request Correction</button>}
                             </div>
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Fee : ₹ {fee}/-</h4>
                             <hr />
@@ -118,6 +134,10 @@ function CourseDetails() {
                             </div>
                         </div>
                     </section>
+
+                    {status !== 'Active' && <div className="flex justify-center p-5 my-4">
+                        <button className="bg-cyan-600 hover:bg-cyan-700 text-white sm:text-2xl font-bold py-2 px-4 ml-6 rounded" onClick={handlePublishCourse}>  Publish Course </button>
+                    </div>}
                 </div>
                 <Toaster />
             </div>

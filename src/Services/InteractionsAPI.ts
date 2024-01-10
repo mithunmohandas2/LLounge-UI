@@ -235,6 +235,20 @@ const CourseStatusAPI = async (_id: string, role: string) => {
     }
 }
 
+const publishCourseAPI = async (_id: string) => {
+    try {
+        const url = baseUrlAPI + `/admin/publishCourse`;
+        const data = { courseId: _id }
+        const response = await axios.put(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 const createModuleAPI = async (moduleData: Module) => {
     try {
         const url = baseUrlAPI + '/tutor/addModule';
@@ -297,6 +311,7 @@ export {
     courseDetailsAPI,
     blockCoursesAPI,
     CourseStatusAPI,
+    publishCourseAPI,
     createModuleAPI,
     addMaterialsAPI,
     createBranchAPI,
