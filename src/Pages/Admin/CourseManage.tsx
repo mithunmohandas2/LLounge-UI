@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { blockCoursesAPI, listAllCoursesAPI } from "../../services/interactionsAPI"
 import { courseDataExpanded } from "../../types/courseTypes"
-import BranchList from "../../components/AdminComponents/BranchList"
+import BranchList from "../../components/CommonComponents/BranchList"
 import AdminHeader from "../../components/AdminComponents/AdminHeader"
 
 function CourseManage() {
   const Navigate = useNavigate()
   const [courses, setCourses] = useState<courseDataExpanded[] | undefined>(undefined);
   const [searchResult, setSearchResult] = useState<courseDataExpanded[] | undefined>(undefined);
+  const [selectedBranch, setSelectedBranch] = useState('all')
   const [change, setChange] = useState(1)
 
   useEffect(() => {
@@ -33,17 +34,19 @@ function CourseManage() {
 
   const handleSearch = (keyword: string) => {
     const regex = new RegExp(keyword, 'i');
-    setSearchResult(courses?.filter((course) => regex.test(course?.courseName))); //find products with keyword
+    const tempCourses = selectedBranch !== 'all' ? courses?.filter((course) => course?.branchId?._id === selectedBranch) : courses //branchwise search
+    setSearchResult(tempCourses?.filter((course) => regex.test(course?.courseName))); //find products with keyword
   }
 
   function handleBranchFilter(branchID: string) {
     if (branchID === 'all') {
       setSearchResult(courses)
+      setSelectedBranch('all')
     } else {
+      setSelectedBranch(branchID)
       setSearchResult(courses?.filter((course) => course?.branchId?._id === branchID)); //find products with branch
     }
   }
-
 
   return (
     <>
@@ -51,7 +54,7 @@ function CourseManage() {
       <Toaster />
       <h1 className='text-3xl m-7 font-semibold'>Course Management</h1>
 
-      <BranchList setChange={setChange} change={change} handleBranchFilter={handleBranchFilter} />
+      <BranchList setChange={setChange} change={change} handleBranchFilter={handleBranchFilter} selectedBranch={selectedBranch} user={false} />
 
       {/* -------------- SEARCH BOX ----------------- */}
       <div className="container mx-auto py-4 w-1/2 my-auto">

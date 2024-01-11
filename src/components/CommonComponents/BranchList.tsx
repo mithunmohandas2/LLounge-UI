@@ -5,7 +5,7 @@ import { isValidName } from '../../services/validations';
 import { createBranchAPI, listBranchesAPI } from '../../services/interactionsAPI';
 import { Branch } from '../../types/courseTypes';
 
-function BranchList(props: { setChange: (arg0: number) => void; change: unknown; handleBranchFilter: (arg0: string) => void; user: boolean }) {
+function BranchList(props: { setChange: (arg0: number) => void; change: unknown; handleBranchFilter: (arg0: string) => void; user: boolean; selectedBranch: string }) {
     const [branchName, setBranchName] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [branches, setBranches] = useState<Branch[] | undefined>(undefined);
@@ -44,9 +44,13 @@ function BranchList(props: { setChange: (arg0: number) => void; change: unknown;
             <h1 className='text-xl m-8'>Branches</h1>
             <div className="grid grid-cols-1 gap-[30px] md:grid-cols-5 mx-7">
                 {/* Branches */}
-                <button onClick={() => props?.handleBranchFilter('all')} className="bg-cyan-600 hover:bg-cyan-700 text-white font-bold p-3 mx-2 ml-6 rounded">All Branches</button>
+                <button onClick={() => props?.handleBranchFilter('all')} className={props?.selectedBranch === 'all' ? "border bg-cyan-600 hover:bg-cyan-700 text-white font-bold p-3 mx-2 ml-6 rounded" : "border hover:bg-cyan-600 hover:text-white font-bold p-3 mx-2 ml-6 rounded"}>All Branches</button>
                 {branches && branches.map((branch) => (
-                    <button key={branch._id} onClick={() => props?.handleBranchFilter(branch._id)} className="bg-cyan-600 hover:bg-cyan-700 text-white font-bold p-3 mx-2 ml-6 rounded">{branch?.branchName}</button>
+                    <button key={branch._id}
+                        onClick={() => props?.handleBranchFilter(branch._id)}
+                        className={props?.selectedBranch === branch._id ? "border bg-cyan-600 hover:bg-cyan-700 text-white font-bold p-3 mx-2 ml-6 rounded" : "border hover:bg-cyan-600 hover:text-white font-bold p-3 mx-2 ml-6 rounded"}>
+                        {branch?.branchName}
+                    </button>
                 ))}
 
                 {/* ----------- */}

@@ -2,13 +2,14 @@ import { Toaster } from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { courseDataExpanded } from "../../types/courseTypes"
-import BranchList from "../AdminComponents/BranchList"
+import BranchList from "../CommonComponents/BranchList"
 import { listAllCoursesForUserAPI } from "../../services/userInteractionsAPI"
 
 function CourseListings() {
     const Navigate = useNavigate()
     const [courses, setCourses] = useState<courseDataExpanded[] | undefined>(undefined);
     const [searchResult, setSearchResult] = useState<courseDataExpanded[] | undefined>(undefined);
+    const [selectedBranch, setSelectedBranch] = useState('all')
     const [change, setChange] = useState(1)
 
     useEffect(() => {
@@ -23,13 +24,16 @@ function CourseListings() {
 
     const handleSearch = (keyword: string) => {
         const regex = new RegExp(keyword, 'i');
-        setSearchResult(courses?.filter((course) => regex.test(course?.courseName))); //find products with keyword
+        const tempCourses = selectedBranch !== 'all' ? courses?.filter((course) => course?.branchId?._id === selectedBranch) : courses //branchwise search
+        setSearchResult(tempCourses?.filter((course) => regex.test(course?.courseName))); //find products with keyword
     }
 
     function handleBranchFilter(branchID: string) {
         if (branchID === 'all') {
             setSearchResult(courses)
+            setSelectedBranch('all')
         } else {
+            setSelectedBranch(branchID)
             setSearchResult(courses?.filter((course) => course?.branchId?._id === branchID)); //find products with branch
         }
     }
@@ -40,7 +44,7 @@ function CourseListings() {
             <Toaster />
             <h1 className='text-3xl m-7 font-semibold'>Course Inventory</h1>
 
-            <BranchList setChange={setChange} change={change} handleBranchFilter={handleBranchFilter} user />
+            <BranchList setChange={setChange} change={change} handleBranchFilter={handleBranchFilter} selectedBranch={selectedBranch} user />
 
             {/* -------------- SEARCH BOX ----------------- */}
             <div className="container mx-auto py-4 w-1/2 my-auto">
