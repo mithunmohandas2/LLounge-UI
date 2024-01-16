@@ -1,8 +1,10 @@
 import toast from "react-hot-toast";
 import { enrollCourseAPI } from "../../services/userInteractionsAPI";
+import { sendNotificationAPI } from "../../services/interactionsAPI";
+import { useNavigate } from "react-router-dom";
 
 function CourseEnrollment(props: { courseId: string, setChange: (arg0: number) => void, change: number, enrollStatus: boolean }) {
-
+    const Navigate = useNavigate()
 
     async function handleEnrollCourse() {
         try {
@@ -11,7 +13,16 @@ function CourseEnrollment(props: { courseId: string, setChange: (arg0: number) =
             console.log("response", response)    //test
             if (response?.data) {
                 toast.success(' Enrollment successful');
+                
+                //send notification 
+                const senderId = localStorage.getItem("_id")!
+                const receiverId = "656f1492942b35a3182bc563"  //admin ID
+                const message = "New Student Enrolled"
+                const courseId = props?.courseId
+                await sendNotificationAPI({ senderId, receiverId, courseId, message })
                 props?.setChange(props?.change === 1 ? 2 : 1)
+                alert("Enrollment successful")
+                Navigate("/courses")
 
             } else {
                 toast.error(response?.message)
@@ -22,10 +33,16 @@ function CourseEnrollment(props: { courseId: string, setChange: (arg0: number) =
 
     }
 
-    function handleRequestViva() {
-       const isConfirmed = window.confirm('Sure to Request for Viva')
-       if(!isConfirmed) return
-       alert("requested for viva")
+    async function handleRequestViva() {
+        const isConfirmed = window.confirm('Sure to Request for Viva')
+        if (!isConfirmed) return
+        const senderId = localStorage.getItem("_id")!
+        const receiverId = "656f1492942b35a3182bc563"  //tutor ID
+        const message = "Course Viva Requested"
+        const courseId = props?.courseId
+        await sendNotificationAPI({ senderId, receiverId, courseId, message })
+        alert("requested for viva")
+        Navigate("/courses")
     }
 
     return (

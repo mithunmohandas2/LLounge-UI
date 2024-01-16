@@ -293,6 +293,19 @@ const createBranchAPI = async (branchName: string) => {
     }
 }
 
+const sendNotificationAPI = async (data: { senderId: string, receiverId: string, message: string, courseId: string }) => {
+    try {
+        const url = baseUrlAPI + '/user/notifications';
+        const response = await axios.post(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 
 export {
     SignupAPI,
@@ -315,4 +328,5 @@ export {
     createModuleAPI,
     addMaterialsAPI,
     createBranchAPI,
+    sendNotificationAPI,
 }

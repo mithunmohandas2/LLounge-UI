@@ -1,6 +1,6 @@
 import toast, { Toaster } from "react-hot-toast";
 import AdminHeader from "../../components/AdminComponents/AdminHeader";
-import { CourseStatusAPI, courseDetailsAPI, publishCourseAPI } from "../../services/interactionsAPI";
+import { CourseStatusAPI, courseDetailsAPI, publishCourseAPI, sendNotificationAPI } from "../../services/interactionsAPI";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import firebase from '../../firebase/config';
@@ -44,7 +44,7 @@ function CourseDetails(props: { admin: boolean }) {
             if (course?.tutor?.firstName) setTutor(course?.tutor?.firstName + " " + course?.tutor?.lastName)
         }
         getCourseData()
-    }, [change])
+    }, [change, enrollStatus])
 
     async function handleEditRequest(courseId: string) {
         try {
@@ -54,6 +54,12 @@ function CourseDetails(props: { admin: boolean }) {
             // console.log("response recieved", response)    //test
             if (response) {
                 toast.success(response?.message);
+
+                //send notification 
+                const senderId = localStorage.getItem("_id")!
+                const receiverId = "656f1492942b35a3182bc563"  //admin ID
+                const message = "Course Edit Requested"
+                await sendNotificationAPI({ senderId, receiverId, courseId, message })
                 setChange(change === 1 ? 2 : 1)
             } else {
                 toast.error(response?.message)
@@ -71,6 +77,11 @@ function CourseDetails(props: { admin: boolean }) {
             // console.log("response recieved", response)    //test
             if (response) {
                 toast.success(response?.message);
+                //send notification 
+                const senderId = localStorage.getItem("_id")!
+                const receiverId = "656f1492942b35a3182bc563"  //admin ID
+                const message = "Course Published"
+                await sendNotificationAPI({ senderId, receiverId, courseId, message })
                 setChange(change === 1 ? 2 : 1)
             } else {
                 toast.error(response?.message)
