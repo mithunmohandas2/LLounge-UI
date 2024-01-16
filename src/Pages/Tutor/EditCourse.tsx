@@ -1,8 +1,8 @@
 import toast, { Toaster } from 'react-hot-toast';
 import TutorHeader from '../../components/TutorComponents/TutorHeader';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { CourseStatusAPI, courseDetailsAPI, editCourseAPI, listBranchesAPI } from '../../services/interactionsAPI';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { CourseStatusAPI, courseDetailsAPI, editCourseAPI, listBranchesAPI, sendNotificationAPI } from '../../services/interactionsAPI';
 import { isValidFee } from '../../services/validations';
 import AddModule from '../../components/TutorComponents/AddModule';
 import { Branch, Module, courseDataExpanded } from "../../types/courseTypes";
@@ -10,6 +10,7 @@ import CourseImageEdit from '../../components/TutorComponents/CourseImageEdit';
 import EditModule from '../../components/TutorComponents/EditModule';
 import MaterialsEdit from '../../components/TutorComponents/MaterialsEdit';
 import firebase from '../../firebase/config';
+import EnrollmentList from '../../components/TutorComponents/EnrollmentList';
 
 
 function EditCourse() {
@@ -29,6 +30,7 @@ function EditCourse() {
     const closeEditModal = () => setIsEditModalOpen(false)  // Function to close the modal
     const tutor = localStorage.getItem("_id") || '656f144c942b35a3182bc55f'  //test
     const location = useLocation()
+    const Navigate = useNavigate()
     const storage = firebase
     if (!storage) console.log("firebase error")
 
@@ -87,6 +89,8 @@ function EditCourse() {
     }, [])
 
     async function handleCourseApproval(courseId: string) {
+        const confirmation = window.confirm("Send request for approval?")
+        if (!confirmation) return
         try {
             const _id = courseId
             const role = "tutor"
@@ -94,6 +98,11 @@ function EditCourse() {
             // console.log("response recieved", response)    //test
             if (response) {
                 toast.success(response?.message);
+                //send notification 
+                const senderId = localStorage.getItem("_id")!
+                const receiverId = "656f1492942b35a3182bc563"  //admin ID
+                const message = "Course Sent for approval"
+                await sendNotificationAPI({ senderId, receiverId, courseId, message })
                 setChange(change === 1 ? 2 : 1)
             } else {
                 toast.error(response?.message)
@@ -139,6 +148,9 @@ function EditCourse() {
                         </div>
 
                     </section>
+                    
+                    <button className="bg-cyan-600 hover:bg-cyan-700 text-white sm:text-md font-bold py-2 px-4 mx-auto my-4 rounded" onClick={() => Navigate(`/tutor/enrolledUsers?id=${courseId}`)}>  Enrollment List </button>
+
 
                     {/* --------MODULE SECTION---------- */}
                     <section className="container mx-auto">

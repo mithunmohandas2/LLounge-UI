@@ -34,7 +34,7 @@ function EditModule(props: { courseId: string, module: Module, change: number, s
     return (
         <>
             <button onClick={() => openModal()} className="bg-slate-100 hover:bg-slate-200 text-cyan-600 font-bold py-2 px-4 m-2 rounded focus:outline-none focus:shadow-outline">
-            <img style={{ width: 25, cursor: 'pointer' }} src="https://cdn-icons-png.flaticon.com/512/3597/3597075.png" alt="Edit Module" />
+                <img style={{ width: 25, cursor: 'pointer' }} src="https://cdn-icons-png.flaticon.com/512/3597/3597075.png" alt="Edit Module" />
             </button>
 
             {/* Modal */}

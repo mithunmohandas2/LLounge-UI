@@ -207,6 +207,19 @@ const courseDetailsAPI = async (_id: string) => {
     }
 }
 
+const enrolledUsersAPI = async (_id: string) => {
+    try {
+        const url = baseUrlAPI + `/tutor/enrolledUsers?_id=${_id}`;
+        const response = await axios.get(url)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 const blockCoursesAPI = async (_id: string, role: string) => {
     try {
         const url = baseUrlAPI + `/${role}/blockCourse`;
@@ -322,6 +335,7 @@ export {
     listBranchesAPI,
     listAllCoursesAPI,
     courseDetailsAPI,
+    enrolledUsersAPI,
     blockCoursesAPI,
     CourseStatusAPI,
     publishCourseAPI,

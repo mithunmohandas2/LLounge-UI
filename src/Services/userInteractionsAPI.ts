@@ -14,6 +14,19 @@ const listAllCoursesForUserAPI = async () => {
     }
 }
 
+const getNotificationsAPI = async (_id:string) => {
+    try {
+        const url = baseUrlAPI + `/user/notifications?_id=${_id}`;
+        const response = await axios.get(url)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 const enrollCourseAPI = async (courseId: string, _id: string) => {
     try {
         const url = baseUrlAPI + `/user/course/enroll`;
@@ -48,6 +61,7 @@ const enrollCheckAPI = async (courseId: string, userId: string) => {
 
 export {
     listAllCoursesForUserAPI,
+    getNotificationsAPI,
     enrollCourseAPI,
     enrollCheckAPI,
 }

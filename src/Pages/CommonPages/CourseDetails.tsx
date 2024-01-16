@@ -71,6 +71,8 @@ function CourseDetails(props: { admin: boolean }) {
     }
 
     async function handlePublishCourse() {
+        const confirmation = window.confirm("Sure to publish course?")
+        if (!confirmation) return
         try {
             const _id = courseId
             const response = await publishCourseAPI(_id); //for new course api call
@@ -79,7 +81,7 @@ function CourseDetails(props: { admin: boolean }) {
                 toast.success(response?.message);
                 //send notification 
                 const senderId = localStorage.getItem("_id")!
-                const receiverId = "656f1492942b35a3182bc563"  //admin ID
+                const receiverId = courseId  //admin ID
                 const message = "Course Published"
                 await sendNotificationAPI({ senderId, receiverId, courseId, message })
                 setChange(change === 1 ? 2 : 1)

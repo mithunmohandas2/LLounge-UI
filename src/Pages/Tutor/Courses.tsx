@@ -73,7 +73,7 @@ function Courses() {
                                 <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden  m-6">
                                     <div className=" ">
                                         <div className="">
-                                            <img className="h-48 w-full object-cover " src={course?.image? course?.image : "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"} alt="Course Image" />
+                                            <img className="h-48 w-full object-cover " src={course?.image ? course?.image : "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"} alt="Course Image" />
                                         </div>
                                         <div className={course.isBlocked ? "p-8 bg-red-100 text-gray-500" : "p-8 bg-white text-gray-500"}>
                                             <div className="uppercase tracking-wide text-2xl text-indigo-500 font-semibold">{course?.courseName}</div>
@@ -84,7 +84,7 @@ function Courses() {
                                             <button
                                                 onClick={() => { Navigate(`/tutor/editCourse?id=${course._id}`) }}
                                                 className="bg-slate-100 hover:bg-slate-200 text-cyan-600 font-bold py-2 px-4 m-2 rounded focus:outline-none focus:shadow-outline">
-                                                Edit Details
+                                                View Details
                                             </button>
                                             {course.isBlocked ?
                                                 <button

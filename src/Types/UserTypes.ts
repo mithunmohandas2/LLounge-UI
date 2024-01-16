@@ -27,4 +27,10 @@ interface UserTypeRedux {
     token: null | string,
 }
 
-export type { User, UserTypeRedux}
+interface enrolledUsers {
+    _id?: string,
+    marks: number,
+    userId: User,
+}
+
+export type { User, UserTypeRedux, enrolledUsers }
