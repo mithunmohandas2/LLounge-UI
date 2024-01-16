@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import firebase from '../../firebase/config';
 import { Module, courseDataExpanded } from "../../types/courseTypes";
+import UserHeader from "../../components/UserComponents/UserHeader";
+import CourseEnrollment from "../../components/UserComponents/CourseEnrollment";
+import { enrollCheckAPI } from "../../services/userInteractionsAPI";
 
-
-function CourseDetails() {
+function CourseDetails(props: { admin: boolean }) {
     const [courseId, setCourseId] = useState('');
     const [courseName, setCourseName] = useState('');
     const [description, setDescription] = useState('');
@@ -18,6 +20,7 @@ function CourseDetails() {
     const [modules, setModules] = useState<Module[] | undefined>(undefined);
     const [courseImg, setCourseImg] = useState('https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg')
     const [change, setChange] = useState(1);
+    const [enrollStatus, setEnrollStatus] = useState(false);
     const location = useLocation()
     const storage = firebase
     if (!storage) console.log("firebase error")
@@ -25,7 +28,7 @@ function CourseDetails() {
     useEffect(() => {
         const query = location.search
         if (!query?.length) return
-        const _id = query.slice(query.indexOf('=') + 1, query.length)   //extracting Course ID from query
+        const _id = query.slice(query.indexOf('=') + 1, query.length)   //extracting Course ID from queryuserId
         const getCourseData = async () => {
             const courseList = await courseDetailsAPI(_id)             //fetch details of course
             const course: courseDataExpanded = courseList.data
@@ -78,9 +81,25 @@ function CourseDetails() {
         }
     }
 
+    if (localStorage.getItem("role") === "user") {
+        useEffect(() => {
+            (async () => {
+                const query = location.search
+                const courseId = query.slice(query.indexOf('=') + 1, query.length)   //extracting Course ID from queryuserId
+                const userId = localStorage.getItem("_id")!
+                const isEnrolled = await enrollCheckAPI(courseId, userId)             //fetch details of enrollment
+                if (isEnrolled.message !== 'Enrolled for course') {
+                    setEnrollStatus(true);
+                    setChange(change === 1 ? 2 : 1)
+                }
+            })()
+
+        }, [change])
+    }
+
     return (
         <>
-            <AdminHeader />
+            {props?.admin ? <AdminHeader /> : <UserHeader />}
             <div className="flex flex-col justify-center px-6 py-14 sm:py-12 lg:px-8 bg-slate-300">
                 <h1 className='font-bold text-4xl my-3 text-cyan-600 text-center'>{courseName}</h1>
                 <hr />
@@ -90,13 +109,13 @@ function CourseDetails() {
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Course Description</h4>
                             <h4 className='m-3 text-slate-800 font-bold text-md md:text-xl text-justify'>{description}</h4>
                             <hr />
-                            <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">ID :</span> {courseId}</h4>
+                            {props.admin && <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">ID :</span> {courseId}</h4>}
                             <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Branch :</span> {branch}</h4>
                             <h4 className='my-3 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Tutor :</span> {tutor}</h4>
-                            <div className="flex">
+                            {props.admin && <div className="flex">
                                 <h4 className='my-1 text-slate-800 text-md md:text-xl'> <span className="font-bold ">Status :</span> {status}</h4>
                                 {(status === "Sent for approval" || status === "Active") && <button onClick={() => handleEditRequest(courseId)} className='mx-3 px-3 rounded-xl text-white bg-orange-400 hover:bg-orange-500'>Request Correction</button>}
-                            </div>
+                            </div>}
                             <h4 className='my-3 text-slate-800 font-bold text-xl md:text-2xl'>Fee : ₹ {fee}/-</h4>
                             <hr />
                         </div>
@@ -108,7 +127,7 @@ function CourseDetails() {
                     </section>
 
                     {/* --------MODULE SECTION---------- */}
-                    <section className="container mx-auto">
+                    {(props?.admin || !enrollStatus) && <section className="container mx-auto">
                         <div className="mx-auto max-w-7xl px-2 md:px-0 my-4">
                             <div className="grid grid-cols-1 gap-[30px] md:grid-cols-3">
 
@@ -133,11 +152,13 @@ function CourseDetails() {
 
                             </div>
                         </div>
-                    </section>
+                    </section>}
 
                     {status !== 'Active' && <div className="flex justify-center p-5 my-4">
                         <button className="bg-cyan-600 hover:bg-cyan-700 text-white sm:text-2xl font-bold py-2 px-4 ml-6 rounded" onClick={handlePublishCourse}>  Publish Course </button>
                     </div>}
+
+                    {!props.admin && <CourseEnrollment courseId={courseId} setChange={setChange} change={change} enrollStatus={enrollStatus} />}
                 </div>
                 <Toaster />
             </div>

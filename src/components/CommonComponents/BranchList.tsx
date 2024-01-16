@@ -5,14 +5,14 @@ import { isValidName } from '../../services/validations';
 import { createBranchAPI, listBranchesAPI } from '../../services/interactionsAPI';
 import { Branch } from '../../types/courseTypes';
 
-function BranchList(props: { setChange: (arg0: number) => void; change: unknown; handleBranchFilter: (arg0: string) => void; user: boolean; selectedBranch: string }) {
+function BranchList(props: { setChange: (arg0: number) => void; change: number; handleBranchFilter: (arg0: string) => void; user: boolean; selectedBranch: string }) {
     const [branchName, setBranchName] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [branches, setBranches] = useState<Branch[] | undefined>(undefined);
     const openModal = () => setIsModalOpen(true)    // Function to open the modal
     const closeModal = () => setIsModalOpen(false)  // Function to close the modal
 
-
+    
     async function handleCreateBranch(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         console.log("branchName => ", branchName)

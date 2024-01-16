@@ -7,8 +7,10 @@ import OtpLoginPage from "../Pages/CommonPages/OtpLoginPage"
 import Error404 from "../Pages/CommonPages/Error404"
 import Error401 from "../Pages/CommonPages/Error401"
 import Profile from "../Pages/CommonPages/Profile"
-import Header from "../components/CommonComponents/LandingHeader"
 import UserCourses from "../Pages/User/UserCoursesPage"
+import CourseDetails from "../Pages/CommonPages/CourseDetails"
+import Notifications from "../Pages/CommonPages/Notifications"
+import UserHeader from "../components/UserComponents/UserHeader"
 
 const UserRoutes: React.FC = () => {
     return (
@@ -19,9 +21,10 @@ const UserRoutes: React.FC = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/forgotPassword" element={<OtpLoginPage />} />
-                <Route path="/profile" element={<Profile header={<Header/>} />} />
                 <Route path="/courses" element={<UserCourses />} />
-                <Route path="/course" element={<UserCourses />} /> {/* pending */}
+                <Route path="/course" element={<CourseDetails admin={false} />} />
+                <Route path="/profile" element={<Profile header={<UserHeader/>} />} />
+                <Route path="/notifications" element={<Notifications header={<UserHeader/>} />} />
                 
                 <Route path="/admin/*" />
                 <Route path="/tutor/*" />

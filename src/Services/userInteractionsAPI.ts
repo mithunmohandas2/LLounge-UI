@@ -14,6 +14,40 @@ const listAllCoursesForUserAPI = async () => {
     }
 }
 
+const enrollCourseAPI = async (courseId: string, _id: string) => {
+    try {
+        const url = baseUrlAPI + `/user/course/enroll`;
+        const data = {
+            courseId, userId: _id
+        }
+        const response = await axios.post(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
+const enrollCheckAPI = async (courseId: string, userId: string) => {
+    try {
+        const url = baseUrlAPI + `/user/course/enrollCheck`;
+        const data = {
+            courseId, userId
+        }
+        const response = await axios.post(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 export {
     listAllCoursesForUserAPI,
+    enrollCourseAPI,
+    enrollCheckAPI,
 }

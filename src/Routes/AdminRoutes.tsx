@@ -10,7 +10,8 @@ import { useDispatch } from 'react-redux'
 import { logout } from '../features/user/userSlice'
 import AdminHeader from '../components/AdminComponents/AdminHeader'
 import CourseManage from '../Pages/Admin/CourseManage'
-import CourseDetails from '../Pages/Admin/CourseDetailsAdmin'
+import CourseDetails from '../Pages/CommonPages/CourseDetails'
+import Notifications from '../Pages/CommonPages/Notifications'
 
 const AdminRoutes: React.FC = () => {
     const Navigate = useNavigate()
@@ -43,9 +44,10 @@ const AdminRoutes: React.FC = () => {
                     <Route path="" element={<Dashboard />} />
                     <Route path="/manageUsers" element={<ManageUsers />} />
                     <Route path="/courses" element={<CourseManage />} />
-                    <Route path="/course" element={<CourseDetails />} />
+                    <Route path="/course" element={<CourseDetails admin={true} />} />
                     <Route path="/addTutor" element={<AddTutor />} />
-                    <Route path="/profile" element={<Profile header={<AdminHeader/>} />} />
+                    <Route path="/profile" element={<Profile header={<AdminHeader />} />} />
+                    <Route path="/notifications" element={<Notifications header={<AdminHeader />} />} />
 
                     <Route path="*" element={<Error404 />} />
                 </Routes>

@@ -10,6 +10,7 @@ import TutorHeader from "../components/TutorComponents/TutorHeader"
 import Courses from "../Pages/Tutor/Courses"
 import AddCourse from "../Pages/Tutor/AddCourse"
 import EditCourse from "../Pages/Tutor/EditCourse"
+import Notifications from "../Pages/CommonPages/Notifications"
 
 const TutorRoutes: React.FC = () => {
     const Navigate = useNavigate()
@@ -43,6 +44,7 @@ const TutorRoutes: React.FC = () => {
                 {Protected && <Route path="/courses" element={<Courses />} />}
                 {Protected && <Route path="/addCourse" element={<AddCourse />} />}
                 {Protected && <Route path="/editCourse" element={<EditCourse />} />}
+                {Protected && < Route path="/notifications" element={<Notifications header={<TutorHeader />} />} />}
 
                 <Route path="*" element={<Error404 />} />
             </Routes>
