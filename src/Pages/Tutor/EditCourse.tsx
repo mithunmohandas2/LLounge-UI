@@ -10,8 +10,6 @@ import CourseImageEdit from '../../components/TutorComponents/CourseImageEdit';
 import EditModule from '../../components/TutorComponents/EditModule';
 import MaterialsEdit from '../../components/TutorComponents/MaterialsEdit';
 import firebase from '../../firebase/config';
-import EnrollmentList from '../../components/TutorComponents/EnrollmentList';
-
 
 function EditCourse() {
     const [courseId, setCourseId] = useState('');
@@ -157,7 +155,7 @@ function EditCourse() {
                         <div className="mx-auto max-w-7xl px-2 md:px-0 my-4">
                             <div className="grid grid-cols-1 gap-[30px] md:grid-cols-3">
 
-                                {modules?.length && modules.map((module) => (
+                                {modules?.length? modules?.length && modules.map((module) => (
                                     <div key={module?._id}>
                                         <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden  m-6">
                                             <div className="p-8 bg-white text-gray-500">
@@ -177,7 +175,7 @@ function EditCourse() {
                                             </div>
                                         </div>
                                     </div>
-                                ))}
+                                )): <p> No modules added </p>}
 
                             </div>
                         </div>

@@ -8,6 +8,7 @@ import { Module, courseDataExpanded } from "../../types/courseTypes";
 import UserHeader from "../../components/UserComponents/UserHeader";
 import CourseEnrollment from "../../components/UserComponents/CourseEnrollment";
 import { enrollCheckAPI } from "../../services/userInteractionsAPI";
+import ReviewsRatings from "../../components/CommonComponents/Reviews&Ratings";
 
 function CourseDetails(props: { admin: boolean }) {
     const [courseId, setCourseId] = useState('');
@@ -15,6 +16,7 @@ function CourseDetails(props: { admin: boolean }) {
     const [description, setDescription] = useState('');
     const [fee, setFee] = useState('');
     const [tutor, setTutor] = useState('');
+    const [tutorId, setTutorId] = useState('');
     const [branch, setBranch] = useState('');
     const [status, setStatus] = useState('');
     const [modules, setModules] = useState<Module[] | undefined>(undefined);
@@ -42,6 +44,7 @@ function CourseDetails(props: { admin: boolean }) {
             setStatus(course?.status)
             if (course?.image) setCourseImg(course?.image)
             if (course?.tutor?.firstName) setTutor(course?.tutor?.firstName + " " + course?.tutor?.lastName)
+            if (course?.tutor?._id) setTutorId(course?.tutor?._id)
         }
         getCourseData()
     }, [change, enrollStatus])
@@ -57,7 +60,7 @@ function CourseDetails(props: { admin: boolean }) {
 
                 //send notification 
                 const senderId = localStorage.getItem("_id")!
-                const receiverId = "656f1492942b35a3182bc563"  //admin ID
+                const receiverId = tutorId  //tutor ID
                 const message = "Course Edit Requested"
                 await sendNotificationAPI({ senderId, receiverId, courseId, message })
                 setChange(change === 1 ? 2 : 1)
@@ -81,7 +84,7 @@ function CourseDetails(props: { admin: boolean }) {
                 toast.success(response?.message);
                 //send notification 
                 const senderId = localStorage.getItem("_id")!
-                const receiverId = courseId  //admin ID
+                const receiverId = tutorId  //tutor ID
                 const message = "Course Published"
                 await sendNotificationAPI({ senderId, receiverId, courseId, message })
                 setChange(change === 1 ? 2 : 1)
@@ -94,7 +97,7 @@ function CourseDetails(props: { admin: boolean }) {
         }
     }
 
-    if (localStorage.getItem("role") === "user") {
+    if (localStorage.getItem("role") === "user") {   //check for user enrollment
         useEffect(() => {
             (async () => {
                 const query = location.search
@@ -171,7 +174,8 @@ function CourseDetails(props: { admin: boolean }) {
                         <button className="bg-cyan-600 hover:bg-cyan-700 text-white sm:text-2xl font-bold py-2 px-4 ml-6 rounded" onClick={handlePublishCourse}>  Publish Course </button>
                     </div>}
 
-                    {!props.admin && <CourseEnrollment courseId={courseId} setChange={setChange} change={change} enrollStatus={enrollStatus} />}
+                    {!props.admin && <CourseEnrollment tutorId={tutorId} courseId={courseId} setChange={setChange} change={change} enrollStatus={enrollStatus} />}
+                    <ReviewsRatings courseId={courseId} enrollStatus={enrollStatus} />
                 </div>
                 <Toaster />
             </div>
