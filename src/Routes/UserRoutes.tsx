@@ -11,6 +11,7 @@ import UserCourses from "../Pages/User/UserCoursesPage"
 import CourseDetails from "../Pages/CommonPages/CourseDetails"
 import Notifications from "../Pages/CommonPages/Notifications"
 import UserHeader from "../components/UserComponents/UserHeader"
+import CertificateView from "../Pages/User/CertificateView"
 
 const UserRoutes: React.FC = () => {
     return (
@@ -25,6 +26,7 @@ const UserRoutes: React.FC = () => {
                 <Route path="/course" element={<CourseDetails admin={false} />} />
                 <Route path="/profile" element={<Profile header={<UserHeader/>} />} />
                 <Route path="/notifications" element={<Notifications header={<UserHeader/>} />} />
+                <Route path="/certificate" element={<CertificateView />} />
                 
                 <Route path="/admin/*" />
                 <Route path="/tutor/*" />

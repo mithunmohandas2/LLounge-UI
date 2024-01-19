@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { enrolledUsers } from "../../types/userTypes";
 import TutorHeader from "./TutorHeader";
 import { studentAssessmentAPI } from "../../services/tutorInteractions";
+import { issueCertificateAPI } from "../../services/userInteractionsAPI";
 
 function EnrollmentList() {
     const [users, setUsers] = useState<enrolledUsers[]>([]);
@@ -41,15 +42,24 @@ function EnrollmentList() {
         const userId = selectedUser?.userId._id!
         if (parseInt(marks) > 100 || parseInt(marks) < 0) return toast.error("Enter valid marks")
         const assessment = await studentAssessmentAPI({ courseId, userId, marks })
-        console.log("access =>", assessment)
+        // console.log("access =>", assessment) //test
         setChange(change === 1 ? 2 : 1)
-        closeModal()
+        if (assessment) closeModal()
     }
 
-    function issueCertificateHelper() {
+    async function issueCertificateHelper() {
         const confirmation = window.confirm("Proceed with issuing certificate?")
         if (!confirmation) return
-        alert("Function not implemented.");
+        const userId = selectedUser?.userId._id!
+        const userName = selectedUser?.userId.firstName + " " + selectedUser?.userId.lastName
+        const marks = selectedUser?.marks!
+        const tutorName = localStorage.getItem("name")!
+        // console.log("to send  : ", { courseId, userId, userName, marks, courseName, tutorName }) //test
+        const response = await issueCertificateAPI({ courseId, userId, userName, marks, courseName, tutorName })
+        // console.log("response : ", response) //test
+        if (response?.data) {
+            toast.success(response?.message)
+        }
     }
 
     return (

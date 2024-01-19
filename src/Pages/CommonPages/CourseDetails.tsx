@@ -170,9 +170,9 @@ function CourseDetails(props: { admin: boolean }) {
                         </div>
                     </section>}
 
-                    {status !== 'Active' && <div className="flex justify-center p-5 my-4">
+                    {(props?.admin && status !== 'Active') ? <div className="flex justify-center p-5 my-4">
                         <button className="bg-cyan-600 hover:bg-cyan-700 text-white sm:text-2xl font-bold py-2 px-4 ml-6 rounded" onClick={handlePublishCourse}>  Publish Course </button>
-                    </div>}
+                    </div> : null}
 
                     {!props.admin && <CourseEnrollment tutorId={tutorId} courseId={courseId} setChange={setChange} change={change} enrollStatus={enrollStatus} />}
                     <ReviewsRatings courseId={courseId} enrollStatus={enrollStatus} />

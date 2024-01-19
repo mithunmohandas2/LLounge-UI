@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { baseUrlAPI } from '../app/links'
+import { certificate } from '../types/certificateType';
 
 const listAllCoursesForUserAPI = async () => {
     try {
@@ -87,6 +88,34 @@ const courseFeedbacksAPI = async (courseId: string) => {
     }
 }
 
+const getCertificateAPI = async (courseId: string, userId: string) => {
+    try {
+        if (!courseId) return [] //missing query
+        const url = baseUrlAPI + `/user/certificate?courseId=${courseId}&userId=${userId}`;
+        const response = await axios.get(url)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
+const issueCertificateAPI = async (data: certificate) => {
+    try {
+        const url = baseUrlAPI + `/user/certificate`;
+        const response = await axios.post(url, data)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
+
 export {
     listAllCoursesForUserAPI,
     getNotificationsAPI,
@@ -94,4 +123,6 @@ export {
     enrollCheckAPI,
     submitFeedbackAPI,
     courseFeedbacksAPI,
+    getCertificateAPI,
+    issueCertificateAPI,
 }

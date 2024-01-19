@@ -1,0 +1,48 @@
+/* YourComponent.css */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+.certificate-container {
+    position: relative;
+    text-align: center;
+}
+
+.certificate-container img {
+    width: 100%;
+}
+
+#userName {
+    position: absolute;
+    z-index: 20;
+    top: 53%;
+    left: 50%;
+    font-family: 'Dancing Script', cursive;
+    transform: translate(-50%, -50%);
+    color: rgb(87, 2, 2);
+}
+
+#courseName {
+    position: absolute;
+    z-index: 20;
+    top: 71%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(87, 2, 2);
+}
+
+#date {
+    position: absolute;
+    z-index: 20;
+    top: 80%;
+    left: 26%;
+    transform: translate(-50%, -50%);
+    color: rgb(87, 2, 2);
+}
+
+#tutorName {
+    position: absolute;
+    z-index: 20;
+    top: 80%;
+    left: 72%;
+    transform: translate(-50%, -50%);
+    color: rgb(87, 2, 2);
+}
