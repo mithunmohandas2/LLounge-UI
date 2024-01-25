@@ -9,10 +9,10 @@ export interface courseData {
     tutor?: string,
     fee: string,
     status?: string,
-    isBlocked?: boolean;
+    isBlocked?: boolean,
     modules?: Module[],
     image?: string,
-};
+}
 
 export interface courseDataExpanded {
     _id?: string,
@@ -26,7 +26,7 @@ export interface courseDataExpanded {
     isBlocked?: boolean;
     modules?: Module[],
     image?: string,
-};
+}
 
 export interface Branch {
     _id: string;
