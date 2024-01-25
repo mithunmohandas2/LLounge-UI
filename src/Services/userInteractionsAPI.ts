@@ -103,7 +103,7 @@ const getCertificateAPI = async (courseId: string, userId: string) => {
 }
 
 const issueCertificateAPI = async (data: certificate) => {
-    try {
+    try { //create a new certificate
         const url = baseUrlAPI + `/user/certificate`;
         const response = await axios.post(url, data)
         if (response.data) {

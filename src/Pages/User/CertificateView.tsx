@@ -10,13 +10,11 @@ function CertificateView() {
   useEffect(() => {
     const query = location.search
     if (!query?.length) return
-    const userId = query.slice(query.lastIndexOf('=') + 1, query.length)   //extracting Course ID from queryuserId
+    const userId = query.slice(query.lastIndexOf('=') + 1, query.length)   //extracting user ID from query
     const courseId = query.slice(query.indexOf('=') + 1, query.indexOf('&'));  //extracting Course ID from query
     (async () => {
-      const response = await getCertificateAPI(courseId, userId)             //fetch details of course
+      const response = await getCertificateAPI(courseId, userId)             //fetch details of certificate
       setCertificateData(response.data)
-      // console.log("query", courseId, userId) //test
-      // console.log("course", certificateData) //test
     })()
   }, [])
 
