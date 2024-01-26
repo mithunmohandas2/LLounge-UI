@@ -70,9 +70,11 @@ function Header() {
                             <li className='py-3 text-center' >
                                 <a href="#about" className="hover:opacity-70 lineEffect" onClick={toggleMenu}>About</a>
                             </li>
-                            <li className='py-3 text-center'>
+                            {isLoggedIn ? <li className='py-3 text-center'>
+                                <span onClick={() => Navigate('/courses')} className="hover:opacity-70 lineEffect cursor-pointer">Courses</span>
+                            </li> : <li className='py-3 text-center'>
                                 <a href="#courses" className="hover:opacity-70 lineEffect mx-auto my-3" onClick={toggleMenu}>Courses</a>
-                            </li>
+                            </li>}
                             <li className='py-3 text-center'>
                                 <a href="#contact" className="hover:opacity-70 lineEffect mx-auto my-3" onClick={toggleMenu}>Contact</a>
                             </li>
