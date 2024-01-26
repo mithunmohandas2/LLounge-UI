@@ -6,7 +6,6 @@
 
 *Its a collaboration of React with Typescript, Tailwind CSS and Vite for UI.
 
-
 # Getting Started
 To get the project up and running on your local machine, follow these steps:
 
