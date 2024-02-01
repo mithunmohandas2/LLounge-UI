@@ -20,6 +20,8 @@ function UserList() {
     }
 
     const statusChangeHandler = async (_id: string) => {
+        const confirmed = window.confirm(`Sure to change block status?`)
+        if (!confirmed) return
         const userData = await blockUserAPI(_id);
         if (userData) {
             toast.success(userData.message)
@@ -49,12 +51,12 @@ function UserList() {
                         <button className="bg-slate-400 hover:bg-cyan-700 text-white font-bold py-2 px-4 ml-2 rounded"
                             onClick={() => setUserType('tutor')}> TUTOR </button>
                     }
-                    {userType==='tutor' &&  <button className="bg-slate-100 hover:bg-slate-200 text-cyan-700 font-bold py-2 px-4 ml-6 rounded" onClick={()=> Navigate('/admin/addTutor')}>  ➕Add Tutor </button>}
+                    {userType === 'tutor' && <button className="bg-slate-100 hover:bg-slate-200 text-cyan-700 font-bold py-2 px-4 ml-6 rounded" onClick={() => Navigate('/admin/addTutor')}>  ➕Add Tutor </button>}
                 </div>
 
             </div>
 
-            
+
             <div className='m-6'>
                 <div className="overflow-x-auto mx-auto">
                     <table className="table-auto w-full">

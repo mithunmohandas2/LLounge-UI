@@ -319,6 +319,19 @@ const sendNotificationAPI = async (data: { senderId: string, receiverId: string,
     }
 }
 
+const initiateServerAPI = async () => {
+    try {
+        const url = baseUrlAPI;
+        const response = await axios.get(url)
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error:', (error as Error).message, '|', error);
+        return error
+    }
+}
+
 
 export {
     SignupAPI,
@@ -343,4 +356,5 @@ export {
     addMaterialsAPI,
     createBranchAPI,
     sendNotificationAPI,
+    initiateServerAPI,
 }
